@@ -117,9 +117,10 @@ class Backend:
         Pump3.target_volume(str(abs(deltVol3)), "ml")
 
         pool = Pool()
-        args = [(0, deltVol1), (1, deltVol2), (2, deltVol3)]
+        args = [(0, deltVol1), (1, deltVol2), (2, deltVol3)] #this is what it should be iterating over in assignment
 
-        def actuate_pump(pump_arg):
+        #attempt at streamlining all 3 pumps
+        def actuate_pump(pump_arg): #in talking with megan this may have to be args or just change args
             pump_ref, delt_vol = pump_arg[0], pump_arg[1]
             my_pump = [Pump1, Pump2, Pump3][pump_ref]
             if delt_vol < 0:
