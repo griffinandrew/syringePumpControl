@@ -8,6 +8,7 @@ class Pump:
     def __init__(self, com, name):
         self.serial_pump = serial.Serial(com, 9600, timeout=2)
         if not self.serial_pump.isOpen():
+            print("not open yet")
             self.serial_pump.open()
         self.svol = None
         self.sdiam = None
