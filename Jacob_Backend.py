@@ -130,7 +130,7 @@ class Backend:
             # else:
             #     my_pump.stop_pump()
 
-        Pool.map(actuate_pump, pump_arg) #note pool must be caps bc of import
+        pool.map(actuate_pump, pump_arg)
 
         # # Actuate each pump
         # if deltVol1 < 0:
