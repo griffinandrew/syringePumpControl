@@ -2,9 +2,9 @@ from Jacob_Pump import Pump
 import warnings
 from multiprocessing import Pool
 
-Pump1 = Pump("COM4", "11 PICO PLUS ELITE 3.0.7")
-Pump2 = Pump("COM5", "11 PICO PLUS ELITE 3.0.7")
-Pump3 = Pump("COM6", "11 PICO PLUS ELITE 3.0.7")
+Pump1 = Pump("COM17", "11 PICO PLUS ELITE 3.0.7")
+Pump2 = Pump("COM18", "11 PICO PLUS ELITE 3.0.7")
+Pump3 = Pump("COM19", "11 PICO PLUS ELITE 3.0.7")
 
 # Define a class that communicates the values from the GUI to the pumps when the GO button is pushed
 class Backend:
