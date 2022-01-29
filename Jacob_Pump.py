@@ -30,12 +30,14 @@ class Pump:
             print(tmp2)
 
             if name in tmp.decode():
-                print("Pump Connected Successfully\n")
+                print(f"Pump {name} Connected Successfully\n")
             else:
-                print("Problem connecting to pump\n")
+                print(f"Problem connecting to pump {name}\n")
                 
             print('Setting nvram (non-volatile RAM) to none\n')
             self.serial_pump.write(b'nvram none\r')
+
+
 
         except serial.serialutil.SerialException:
             print("Serial error. Check to make sure the Pump is plugged in and Serial port is not in use")
