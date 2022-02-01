@@ -2,9 +2,9 @@ from Jacob_Pump import Pump
 import warnings
 from multiprocessing import Pool
 
-Pump1 = Pump("COM17", "11 PICO PLUS ELITE 3.0.7")
-Pump2 = Pump("COM18", "11 PICO PLUS ELITE 3.0.7")
-Pump3 = Pump("COM19", "11 PICO PLUS ELITE 3.0.7")
+Pump1 = Pump("COM3", "11 PICO PLUS ELITE 3.0.7")
+Pump2 = Pump("COM4", "11 PICO PLUS ELITE 3.0.7")
+Pump3 = Pump("COM5", "11 PICO PLUS ELITE 3.0.7")
 
 # Define a class that communicates the values from the GUI to the pumps when the GO button is pushed
 class Backend:
@@ -32,9 +32,9 @@ class Backend:
             print(f"Setting initial syringe {k} value to {v}")
 
         # Check that each pump is properly connected
-        Pump1.check_pump("11 PICO PLUS ELITE 3.0.7, Pump1")
-        Pump2.check_pump("11 PICO PLUS ELITE 3.0.7, Pump2")
-        Pump3.check_pump("11 PICO PLUS ELITE 3.0.7, Pump3")
+        Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
+        Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
+        Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
 
         # Define pump parameters for Pump 1
         Pump1.syringe_vol(str(self.syringe_settings["vol"]))
@@ -119,6 +119,32 @@ class Backend:
         pool = Pool()
         pump_arg = [(0, deltVol1), (1, deltVol2), (2, deltVol3)] #this is what it should be iterating over in assignment
 
+
+    def actuate_pump(deltVol1, deltVol2, deltVol3):
+        # # Actuate each pump
+         if deltVol1 < 0:
+             Pump1.withdraw_pump()
+         elif deltVol1 > 0:
+             Pump1.infuse_pump()
+         else:
+             Pump1.stop_pump()
+
+         if deltVol2 < 0:
+             Pump2.withdraw_pump()
+         elif deltVol2 > 0:
+             Pump2.infuse_pump()
+         else:
+             Pump2.stop_pump()
+
+         if deltVol3 < 0:
+             Pump3.withdraw_pump()
+         elif deltVol3 > 0:
+             Pump3.infuse_pump()
+         else:
+             Pump3.stop_pump()
+
+
+'''
         #attempt at streamlining all 3 pumps
         def actuate_pump(pump_arg): #in talking with megan this may have to be args or just change args
             pump_ref, delt_vol = pump_arg[0], pump_arg[1]
@@ -132,25 +158,27 @@ class Backend:
 
         pool.map(actuate_pump, pump_arg)
 
+    def actuate_pump(deltVol1, deltVol2, deltVol3):
         # # Actuate each pump
-        # if deltVol1 < 0:
-        #     Pump1.withdraw_pump()
-        # elif deltVol1 > 0:
-        #     Pump1.infuse_pump()
-        # else:
-        #     Pump1.stop_pump()
-        #
-        # if deltVol2 < 0:
-        #     Pump2.withdraw_pump()
-        # elif deltVol2 > 0:
-        #     Pump2.infuse_pump()
-        # else:
-        #     Pump2.stop_pump()
-        #
-        # if deltVol3 < 0:
-        #     Pump3.withdraw_pump()
-        # elif deltVol3 > 0:
-        #     Pump3.infuse_pump()
-        # else:
-        #     Pump3.stop_pump()
+         if deltVol1 < 0:
+             Pump1.withdraw_pump()
+         elif deltVol1 > 0:
+             Pump1.infuse_pump()
+         else:
+             Pump1.stop_pump()
 
+         if deltVol2 < 0:
+             Pump2.withdraw_pump()
+         elif deltVol2 > 0:
+             Pump2.infuse_pump()
+         else:
+             Pump2.stop_pump()
+
+         if deltVol3 < 0:
+             Pump3.withdraw_pump()
+         elif deltVol3 > 0:
+             Pump3.infuse_pump()
+         else:
+             Pump3.stop_pump()
+
+'''
