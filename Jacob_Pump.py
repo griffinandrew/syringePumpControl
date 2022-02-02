@@ -1,14 +1,16 @@
 # Import modules for testing thread
 import serial
-from serial.tools import list_ports #having problems importing this
 
 # Create a class of functions called "Pump" to control the Harvard Apparatus Pump 11 Elite series pumps
 class Pump:
 
     # Define the initializing function: set all values to zero or false
     def __init__(self, com, name):
+        print("opening serial")
         self.serial_pump = serial.Serial(com, 9600, timeout=2)  #c = serial.Serial(3, 9600)
+        print("got pump serial")
         if not self.serial_pump.isOpen():
+            print("opening") # pumps are open, never getting here
             self.serial_pump.open()
         self.svol = None
         self.sdiam = None
@@ -17,25 +19,20 @@ class Pump:
         self.targetvolume_statement = None
         self.pump_infusing = False
         self.pump_withdrawing = False
+        self.name = name
 
 
     # Define a function to ensure the pump is properly connected and turn off nvram
-    def check_pump(self, name):
+    def check_pump(self, name): #ask kevin
 
         try:
-
-            port = self.serial.tools.list_ports.comports() #adding in the tools class so i can see all atributes of the com
-            for p in port:
-                print(p.device)
-                print(p.location)
-            print(len(port), "ports found")
+            self.serial_pump.write(b'ver\r') # this is writing version and what else to the com?
             tmp = self.serial_pump.read(1000)
-            print("displaying ver")
             print(tmp)
-            self.serial_pump.write(b'address\r') #this read is not being performed, resulting in an invalid port handle being created
-            tmp2 = self.serial_pump.read(1000)
-            print("displaying addy")
-            print(tmp2)
+            #self.serial_pump.write(b'address\r') #this read is not being performed, resulting in an invalid port handle being created
+            #tmp2 = self.serial_pump.read(1000)
+            #print("displaying addy")
+            #print(tmp2)
             print(name)
             if name in tmp.decode():
                 print(f"Pump {name} Connected Successfully\n")
@@ -44,6 +41,8 @@ class Pump:
                 
             print('Setting nvram (non-volatile RAM) to none\n')
             self.serial_pump.write(b'nvram none\r')
+          #  tmp3 = self.serial_pump.read(1000)
+          #  print(tmp3) #b'\n40:' this is what is being returned
 
         except serial.serialutil.SerialException:
             print("Serial error. Check to make sure the Pump is plugged in and Serial port is not in use")
