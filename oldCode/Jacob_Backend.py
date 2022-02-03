@@ -1,4 +1,5 @@
 from Jacob_Pump import Pump
+import warnings
 
 Pump3 = Pump("COM3","11 PICO PLUS ELITE 3.0.7") #Pump("COM3","11 ELITE I/W Single 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
@@ -12,6 +13,9 @@ class Backend:
         # Call in values from the GUI
         self.gui = gui
 
+        # Initialize syringe settings
+        self.syringe_settings = {}
+
         # Set slider values to 0
         self.oldVal1 = 0
         self.curVal1 = 0
@@ -20,9 +24,54 @@ class Backend:
         self.curVal2 = 0
 
         self.oldVal3 = 0
-        self.curVal3 = 0        
+        self.curVal3 = 0
+
+    def set_initial_parameters(self):
+        for k, v in self.syringe_settings.items():
+            print(f"Setting initial syringe {k} value to {v}")
+
+        # Check that each pump is properly connected
+        Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
+        Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
+        Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
+
+        # Define pump parameters for Pump 1
+        Pump1.syringe_vol(str(self.syringe_settings["vol"]))
+        Pump1.syringe_diam(str(self.syringe_settings["diam"]))
+        Pump1.infuse_rate(str(self.syringe_settings["rate"]), "ml/min")
+        Pump1.withdraw_rate(str(self.syringe_settings["rate"]), "ml/min")
+
+        # Define pump parameters for Pump 2
+        Pump2.syringe_vol(str(self.syringe_settings["vol"]))
+        Pump2.syringe_diam(str(self.syringe_settings["diam"]))
+        Pump2.infuse_rate(str(self.syringe_settings["rate"]), "ml/min")
+        Pump2.withdraw_rate(str(self.syringe_settings["rate"]), "ml/min")
+
+        # Define pump parameters for Pump 3
+        Pump3.syringe_vol(str(self.syringe_settings["vol"]))
+        Pump3.syringe_diam(str(self.syringe_settings["diam"]))
+        Pump3.infuse_rate(str(self.syringe_settings["rate"]), "ml/min")
+        Pump3.withdraw_rate(str(self.syringe_settings["rate"]), "ml/min")
 
     def buttonPush(self):
+
+        if not self.syringe_settings:
+            # try:
+            self.syringe_settings = {"rate": float(self.gui.rate_entry.get()),
+                                     "vol": float(self.gui.vol_entry.get()),
+                                     "diam": float(self.gui.diam_entry.get()),
+                                     "num_pump": float(self.gui.varPump.get())}
+            self.set_initial_parameters()
+
+            # except Exception as e:
+            # print(e)
+            # print("Invalid format received for the parameters. Try again with numbers!")
+
+        else:
+            if (self.syringe_settings['rate'] != float(self.gui.rate_entry.get()) or
+                    self.syringe_settings['vol'] != float(self.gui.vol_entry.get()) or
+                    self.syringe_settings['diam'] != float(self.gui.diam_entry.get())):
+                warnings.warn("GUI currently does not support changing syringe settings during the experiment.")
 
         # Slide all the current slider values to the old slider values
         self.oldVal1 = self.curVal1
@@ -35,15 +84,15 @@ class Backend:
         self.curVal3 = self.gui.c3.get()
 
         # Set the values for percent change in volume from each slider
-        self.deltVal1 = self.curVal1 - self.oldVal1
-        self.deltVal2 = self.curVal2 - self.oldVal2
-        self.deltVal3 = self.curVal3 - self.oldVal3
+        deltVal1 = self.curVal1 - self.oldVal1
+        deltVal2 = self.curVal2 - self.oldVal2
+        deltVal3 = self.curVal3 - self.oldVal3
 
         # Multiply by the max volume per channel and divide by 100 to get the absolute
         # change in volume for each channel
-        self.deltVol1 = 0.01 * self.deltVal1 * float(self.gui.maxvol_entry.get())
-        self.deltVol2 = 0.01 * self.deltVal2 * float(self.gui.maxvol_entry.get())
-        self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get())
+        deltVol1 = 0.01 * deltVal1 * float(self.gui.maxvol_entry.get())
+        deltVol2 = 0.01 * deltVal2 * float(self.gui.maxvol_entry.get())
+        deltVol3 = 0.01 * deltVal3 * float(self.gui.maxvol_entry.get())
 
         # Define other GUI parameters
         self.rate = float(self.gui.rate_entry.get())
@@ -52,12 +101,12 @@ class Backend:
         self.numPump = float(self.gui.varPump.get())
 
         # Print volume changes for each channel as a sanity check
-        print(str(self.deltVol1), str(self.deltVol2), str(self.deltVol3))
+        print(str(deltVol1), str(deltVol2), str(deltVol3))
 
         # Check that each pump is properly connected
-        Pump1.check_pump("11 ELITE I/W Single 3.0.6")
-        Pump2.check_pump("11 PICO PLUS ELITE 3.0.6")
-        Pump3.check_pump("11 PICO PLUS ELITE 3.0.6")
+        #Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
+        #Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
+        #Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
 
         # Set the pump parameters for Pump 1
         Pump1.c_volume()
@@ -67,7 +116,7 @@ class Backend:
         Pump1.syringe_diam(str(self.diam))
         Pump1.infuse_rate(str(self.rate), "ml/min")
         Pump1.withdraw_rate(str(self.rate), "ml/min")
-        Pump1.target_volume(str(abs(self.deltVol1)), "ml")
+        Pump1.target_volume(str(abs(deltVol1)), "ml")
 
         # Set the pump parameters for Pump 2
         Pump2.c_volume()
@@ -77,7 +126,7 @@ class Backend:
         Pump2.syringe_diam(str(self.diam))
         Pump2.infuse_rate(str(self.rate), "ml/min")
         Pump2.withdraw_rate(str(self.rate), "ml/min")
-        Pump2.target_volume(str(abs(self.deltVol2)), "ml")
+        Pump2.target_volume(str(abs(deltVol2)), "ml")
 
         # Set the pump parameters for Pump 3
         Pump3.c_volume()
@@ -87,29 +136,30 @@ class Backend:
         Pump3.syringe_diam(str(self.diam))
         Pump3.infuse_rate(str(self.rate), "ml/min")
         Pump3.withdraw_rate(str(self.rate), "ml/min")
-        Pump3.target_volume(str(abs(self.deltVol3)), "ml")
+        Pump3.target_volume(str(abs(deltVol3)), "ml")
 
         # Actuate each pump
-        if self.deltVol1 < 0:
+        if deltVol1 < 0:
             Pump1.withdraw_pump()
-        elif self.deltVol1 > 0:
+        elif deltVol1 > 0:
             Pump1.infuse_pump()
         else:
             Pump1.stop_pump()
 
-        if self.deltVol2 < 0:
+        if deltVol2 < 0:
             Pump2.withdraw_pump()
-        elif self.deltVol2 > 0:
+        elif deltVol2 > 0:
             Pump2.infuse_pump()
         else:
             Pump2.stop_pump()
             
-        if self.deltVol3 < 0:
+        if deltVol3 < 0:
             Pump3.withdraw_pump()
-        elif self.deltVol3 > 0:
+        elif deltVol3 > 0:
             Pump3.infuse_pump()
         else:
             Pump3.stop_pump()
                            
 
-        
+
+

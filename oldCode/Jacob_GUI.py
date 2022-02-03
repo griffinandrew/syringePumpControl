@@ -16,17 +16,17 @@ class GUI:
         
 
         # Initialize sliders at 0
-        self.c1 = 0
-        self.c2 = 0
-        self.c3 = 0
+       # self.c1 = 0
+       # self.c2 = 0
+       # self.c3 = 0
         
 
         # Initialize syringe pump parameters at 0
-        self.diam = 0
-        self.vol = 0
-        self.rate = 0
-        self.max = 0
-        
+       # self.diam = 0
+       # self.vol = 0
+       # self.rate = 0
+       # self.max = 0
+
         
         # Title
         self.title = Label(main, text = "Syringe Control Panel")
