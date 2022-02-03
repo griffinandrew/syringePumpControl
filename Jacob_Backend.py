@@ -119,28 +119,26 @@ class Backend:
         pool = Pool()
         pump_arg = [(0, deltVol1), (1, deltVol2), (2, deltVol3)] #this is what it should be iterating over in assignment
 
-
-    def actuate_pump(deltVol1, deltVol2, deltVol3):
         # # Actuate each pump
-         if deltVol1 < 0:
-             Pump1.withdraw_pump()
-         elif deltVol1 > 0:
+        if deltVol1 < 0:
+            Pump1.withdraw_pump()
+        elif deltVol1 > 0:
              Pump1.infuse_pump()
-         else:
-             Pump1.stop_pump()
+        else:
+            Pump1.stop_pump()
 
-         if deltVol2 < 0:
-             Pump2.withdraw_pump()
-         elif deltVol2 > 0:
-             Pump2.infuse_pump()
-         else:
-             Pump2.stop_pump()
+        if deltVol2 < 0:
+            Pump2.withdraw_pump()
+        elif deltVol2 > 0:
+            Pump2.infuse_pump()
+        else:
+            Pump2.stop_pump()
 
-         if deltVol3 < 0:
-             Pump3.withdraw_pump()
-         elif deltVol3 > 0:
-             Pump3.infuse_pump()
-         else:
+        if deltVol3 < 0:
+            Pump3.withdraw_pump()
+        elif deltVol3 > 0:
+            Pump3.infuse_pump()
+        else:
              Pump3.stop_pump()
 
 

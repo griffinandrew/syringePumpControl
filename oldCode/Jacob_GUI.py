@@ -145,8 +145,13 @@ class GUI:
         
 
 # Run the GUI
-GUI()
+#GUI()
 
+
+
+if __name__ == "__main__":
+    GUI()
+    main.mainloop()
 
 
 

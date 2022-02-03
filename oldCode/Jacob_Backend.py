@@ -1,8 +1,8 @@
 from Jacob_Pump import Pump
 
-Pump3 = Pump("COM4","11 ELITE I/W Single 3.0.6")
-Pump2 = Pump("COM3","11 PICO PLUS ELITE 3.0.6")
-Pump1 = Pump("COM6","11 PICO PLUS ELITE 3.0.6")
+Pump3 = Pump("COM3","11 PICO PLUS ELITE 3.0.7") #Pump("COM3","11 ELITE I/W Single 3.0.7")
+Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
+Pump1 = Pump("COM5","11 PICO PLUS ELITE 3.0.7")
 
 # Define a class that communicates the values from the GUI to the pumps when the GO button is pushed
 class Backend:
