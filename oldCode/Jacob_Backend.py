@@ -1,5 +1,8 @@
 from Jacob_Pump import Pump
 import warnings
+import Pool as pool
+import multiprocessing
+import os
 
 Pump3 = Pump("COM3","11 PICO PLUS ELITE 3.0.7") #Pump("COM3","11 ELITE I/W Single 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
@@ -121,42 +124,26 @@ class Backend:
         Pump3.cw_volume()
         Pump3.target_volume(str(abs(deltVol3)), "ml")
 
-        # Check that each pump is properly connected
-        #Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
-        #Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
-        #Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
-
-        # Set the pump parameters for Pump 1
-        #Pump1.c_volume()
-        #Pump1.ci_volume()
-        #Pump1.cw_volume()
-        #Pump1.syringe_vol(str(self.vol))
-        #Pump1.syringe_diam(str(self.diam))
-        #Pump1.infuse_rate(str(self.rate), "ml/min")
-        #Pump1.withdraw_rate(str(self.rate), "ml/min")
-        #Pump1.target_volume(str(abs(deltVol1)), "ml")
-
-        # Set the pump parameters for Pump 2
-        #Pump2.c_volume()
-        #Pump2.ci_volume()
-        #Pump2.cw_volume()
-        #Pump2.syringe_vol(str(self.vol))
-        #Pump2.syringe_diam(str(self.diam))
-        #Pump2.infuse_rate(str(self.rate), "ml/min")
-        #Pump2.withdraw_rate(str(self.rate), "ml/min")
-        #Pump2.target_volume(str(abs(deltVol2)), "ml")
-
-        # Set the pump parameters for Pump 3
-        #Pump3.c_volume()
-        #Pump3.ci_volume()
-        #Pump3.cw_volume()
-        #Pump3.syringe_vol(str(self.vol))
-        #Pump3.syringe_diam(str(self.diam))
-        #Pump3.infuse_rate(str(self.rate), "ml/min")
-        #Pump3.withdraw_rate(str(self.rate), "ml/min")
-        #Pump3.target_volume(str(abs(deltVol3)), "ml")
+        p = multiprocessing.Pool()
+        pump_arg = [(0, deltVol1), (1, deltVol2), (2, deltVol3)]
 
         # Actuate each pump
+
+        def actuate_pump(pump_args):
+            pump_ref, delt_vol = pump_arg[0], pump_arg[1]
+            my_pump = [Pump1, Pump2, Pump3][pump_ref] #need to think about if this is right
+            if delt_vol < 0:
+                my_pump.withdraw_pump()
+            elif delt_vol > 0:
+                my_pump.infuse_pump()
+            else:
+                my_pump.stop_pump()
+
+            p.map(actuate_pump, pump_arg)
+
+
+'''
+    def actuate_pump(deltVol1, deltVol2, deltVol3):
         if deltVol1 < 0:
             Pump1.withdraw_pump()
         elif deltVol1 > 0:
@@ -177,7 +164,7 @@ class Backend:
             Pump3.infuse_pump()
         else:
             Pump3.stop_pump()
-                           
+'''
 
 
 
