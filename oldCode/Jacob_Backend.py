@@ -1,6 +1,6 @@
 from Jacob_Pump import Pump
 import warnings
-import Pool as pool
+#import Pool as pool
 import multiprocessing
 import os
 
@@ -124,25 +124,15 @@ class Backend:
         Pump3.cw_volume()
         Pump3.target_volume(str(abs(deltVol3)), "ml")
 
-        p = multiprocessing.Pool()
-        pump_arg = [(0, deltVol1), (1, deltVol2), (2, deltVol3)]
+        #p = multiprocessing.Pool()
+        #pump_arg = [(0, deltVol1), (1, deltVol2), (2, deltVol3)]
 
         # Actuate each pump
 
-        def actuate_pump(pump_args):
-            pump_ref, delt_vol = pump_arg[0], pump_arg[1]
-            my_pump = [Pump1, Pump2, Pump3][pump_ref] #need to think about if this is right
-            if delt_vol < 0:
-                my_pump.withdraw_pump()
-            elif delt_vol > 0:
-                my_pump.infuse_pump()
-            else:
-                my_pump.stop_pump()
-
-            p.map(actuate_pump, pump_arg)
 
 
-'''
+
+
     def actuate_pump(deltVol1, deltVol2, deltVol3):
         if deltVol1 < 0:
             Pump1.withdraw_pump()
@@ -164,7 +154,18 @@ class Backend:
             Pump3.infuse_pump()
         else:
             Pump3.stop_pump()
+
+
+''''
+def actuate_pump(pump_args):
+    pump_ref, delt_vol = pump_arg[0], pump_arg[1]
+    my_pump = [Pump1, Pump2, Pump3][pump_ref]  # need to think about if this is right
+    if delt_vol < 0:
+        my_pump.withdraw_pump()
+    elif delt_vol > 0:
+        my_pump.infuse_pump()
+    else:
+        my_pump.stop_pump()
+
+    p.map(actuate_pump, pump_arg)
 '''
-
-
-
