@@ -101,7 +101,25 @@ class Backend:
         self.numPump = float(self.gui.varPump.get())
 
         # Print volume changes for each channel as a sanity check
+        print("parameters set to: ")
         print(str(deltVol1), str(deltVol2), str(deltVol3))
+
+        Pump1.c_volume()
+        Pump1.ci_volume()
+        Pump1.cw_volume()
+        Pump1.target_volume(str(abs(deltVol1)), "ml")
+
+        # Clear previous pump parameters for Pump 2
+        Pump2.c_volume()
+        Pump2.ci_volume()
+        Pump2.cw_volume()
+        Pump2.target_volume(str(abs(deltVol2)), "ml")
+
+        # Clear previous pump parameters for Pump 3
+        Pump3.c_volume()
+        Pump3.ci_volume()
+        Pump3.cw_volume()
+        Pump3.target_volume(str(abs(deltVol3)), "ml")
 
         # Check that each pump is properly connected
         #Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
@@ -109,34 +127,34 @@ class Backend:
         #Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
 
         # Set the pump parameters for Pump 1
-        Pump1.c_volume()
-        Pump1.ci_volume()
-        Pump1.cw_volume()
-        Pump1.syringe_vol(str(self.vol))
-        Pump1.syringe_diam(str(self.diam))
-        Pump1.infuse_rate(str(self.rate), "ml/min")
-        Pump1.withdraw_rate(str(self.rate), "ml/min")
-        Pump1.target_volume(str(abs(deltVol1)), "ml")
+        #Pump1.c_volume()
+        #Pump1.ci_volume()
+        #Pump1.cw_volume()
+        #Pump1.syringe_vol(str(self.vol))
+        #Pump1.syringe_diam(str(self.diam))
+        #Pump1.infuse_rate(str(self.rate), "ml/min")
+        #Pump1.withdraw_rate(str(self.rate), "ml/min")
+        #Pump1.target_volume(str(abs(deltVol1)), "ml")
 
         # Set the pump parameters for Pump 2
-        Pump2.c_volume()
-        Pump2.ci_volume()
-        Pump2.cw_volume()
-        Pump2.syringe_vol(str(self.vol))
-        Pump2.syringe_diam(str(self.diam))
-        Pump2.infuse_rate(str(self.rate), "ml/min")
-        Pump2.withdraw_rate(str(self.rate), "ml/min")
-        Pump2.target_volume(str(abs(deltVol2)), "ml")
+        #Pump2.c_volume()
+        #Pump2.ci_volume()
+        #Pump2.cw_volume()
+        #Pump2.syringe_vol(str(self.vol))
+        #Pump2.syringe_diam(str(self.diam))
+        #Pump2.infuse_rate(str(self.rate), "ml/min")
+        #Pump2.withdraw_rate(str(self.rate), "ml/min")
+        #Pump2.target_volume(str(abs(deltVol2)), "ml")
 
         # Set the pump parameters for Pump 3
-        Pump3.c_volume()
-        Pump3.ci_volume()
-        Pump3.cw_volume()
-        Pump3.syringe_vol(str(self.vol))
-        Pump3.syringe_diam(str(self.diam))
-        Pump3.infuse_rate(str(self.rate), "ml/min")
-        Pump3.withdraw_rate(str(self.rate), "ml/min")
-        Pump3.target_volume(str(abs(deltVol3)), "ml")
+        #Pump3.c_volume()
+        #Pump3.ci_volume()
+        #Pump3.cw_volume()
+        #Pump3.syringe_vol(str(self.vol))
+        #Pump3.syringe_diam(str(self.diam))
+        #Pump3.infuse_rate(str(self.rate), "ml/min")
+        #Pump3.withdraw_rate(str(self.rate), "ml/min")
+        #Pump3.target_volume(str(abs(deltVol3)), "ml")
 
         # Actuate each pump
         if deltVol1 < 0:
