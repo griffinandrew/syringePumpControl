@@ -50,7 +50,7 @@ class Backend:
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
         self.diam = float(self.gui.diam_entry.get())
-        self.numPump = float(self.gui.varPump.get())
+        #self.numPump = float(self.gui.varPump.get())
 
         # Print volume changes for each channel as a sanity check
         print(str(self.deltVol1), str(self.deltVol2), str(self.deltVol3))

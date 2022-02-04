@@ -4,6 +4,8 @@ from tkinter import *
 
 from Jacob_Backend import Backend
 
+from Jacob_Pump import Pump
+
 main = tk.Tk()
 
 
@@ -13,6 +15,8 @@ class GUI:
 
         # Import the Backend code to communicate with the pumps
         self.backend = Backend(self)
+
+        self.Pump = Pump(self)
         
 
         # Initialize sliders at 0
@@ -132,27 +136,22 @@ class GUI:
 
         #---#
 
-        self.varPump = tk.StringVar()
-        
-        self.numPump_label = Label(main, text = "# of Pumps:    ")
-        self.numPump_label.grid(row = 1, column = 8)
 
-        self.numPump_menu = OptionMenu(main, self.varPump, "0", "1", "2", "3")
-        self.numPump_menu.grid(row = 2, column = 8)
+        self.check_button = Button(main, text="Check Pumps", command=lambda: self.Pump.check_pump())
+        self.check_button.grid(row=6, column=4)
+
+        #self.varPump = tk.StringVar()
+        
+        #self.numPump_label = Label(main, text = "# of Pumps:    ")
+        #self.numPump_label.grid(row = 1, column = 8)
+
+        #self.numPump_menu = OptionMenu(main, self.varPump, "0", "1", "2", "3")
+        #self.numPump_menu.grid(row = 2, column = 8)
 
         # ------------------#
 
         
 
-# Run the GUI
-GUI()
-
-
-
-
-
-
-
-
-
-
+if __name__ == "__main__":
+    GUI()
+    main.mainloop()

@@ -35,9 +35,9 @@ class Backend:
             print(f"Setting initial syringe {k} value to {v}")
 
         # Check that each pump is properly connected
-        Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
-        Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
-        Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
+        #Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
+        #Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
+        #Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
 
         # Define pump parameters for Pump 1
         Pump1.syringe_vol(str(self.syringe_settings["vol"]))
