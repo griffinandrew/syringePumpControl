@@ -13,7 +13,21 @@ class GUI:
 
         # Import the Backend code to communicate with the pumps
         self.backend = Backend(self)
+        
 
+        # Initialize sliders at 0
+        self.c1 = 0
+        self.c2 = 0
+        self.c3 = 0
+        
+
+        # Initialize syringe pump parameters at 0
+        self.diam = 0
+        self.vol = 0
+        self.rate = 0
+        self.max = 0
+        
+        
         # Title
         self.title = Label(main, text = "Syringe Control Panel")
         self.title.grid(row = 1, column = 2)
@@ -128,11 +142,11 @@ class GUI:
 
         # ------------------#
 
+        
 
-#run the GUI
-if __name__ == "__main__":
-    GUI()
-    main.mainloop()
+# Run the GUI
+GUI()
+
 
 
 

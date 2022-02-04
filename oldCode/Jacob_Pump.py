@@ -28,9 +28,9 @@ class Pump:
             print(tmp2)
 
             if name in tmp.decode():
-                print(f"Pump {name} Connected Successfully\n")
+                print("Pump Connected Successfully\n")
             else:
-                print(f"Problem connecting to pump {name}\n")
+                print("Problem connecting to pump\n")
                 
             print('Setting nvram (non-volatile RAM) to none\n')
             self.serial_pump.write(b'nvram none\r')
@@ -100,12 +100,11 @@ class Pump:
         self.serial_pump.write(self.cvolume_statement.encode())
 
 
-''''
-# Thread for tsting
+# Thread for testing
 def main():
-    test = Pump("COM4", "11 PICO PLUS ELITE 3.0.7")
-
-    test.check_pump("11 PICO PLUS ELITE 3.0.7")
+    test = Pump("COM4", "11 ELITE I/W Single 3.0.6")
+    
+    test.check_pump("11 ELITE I/W Single 3.0.6")
     
     test.syringe_vol("50")
     test.syringe_diam("28.5")
@@ -121,4 +120,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-'''
