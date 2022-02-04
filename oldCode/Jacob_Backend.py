@@ -1,6 +1,7 @@
 from Jacob_Pump import Pump
 from serial import Serial
 
+
 Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
 Pump3 = Pump("COM5","11 PICO PLUS ELITE 3.0.7")
@@ -114,3 +115,7 @@ class Backend:
                            
 
         
+    def check_button(self):
+        Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
+        Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
+        Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")

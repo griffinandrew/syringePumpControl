@@ -15,8 +15,6 @@ class GUI:
 
         # Import the Backend code to communicate with the pumps
         self.backend = Backend(self)
-
-        self.Pump = Pump(self)
         
 
         # Initialize sliders at 0
@@ -137,7 +135,7 @@ class GUI:
         #---#
 
 
-        self.check_button = Button(main, text="Check Pumps", command=lambda: self.Pump.check_pump())
+        self.check_button = Button(main, text="Check Pumps", command=lambda: self.backend.check_button()) ##Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
         self.check_button.grid(row=6, column=4)
 
         #self.varPump = tk.StringVar()
