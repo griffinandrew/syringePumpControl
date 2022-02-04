@@ -4,10 +4,7 @@ from tkinter import *
 
 from Jacob_Backend import Backend
 
-from Jacob_Pump import Pump
-
 main = tk.Tk()
-
 
 class GUI:
 
@@ -132,19 +129,10 @@ class GUI:
         self.maxvolunit = Label(main, text = "[mL]")
         self.maxvolunit.grid(row = 2, column = 7)
 
-        #---#
-
+        #Check Button Controls#
 
         self.check_button = Button(main, text="Check Pumps", command=lambda: self.backend.check_button()) ##Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
         self.check_button.grid(row=6, column=4)
-
-        #self.varPump = tk.StringVar()
-        
-        #self.numPump_label = Label(main, text = "# of Pumps:    ")
-        #self.numPump_label.grid(row = 1, column = 8)
-
-        #self.numPump_menu = OptionMenu(main, self.varPump, "0", "1", "2", "3")
-        #self.numPump_menu.grid(row = 2, column = 8)
 
         # ------------------#
 
