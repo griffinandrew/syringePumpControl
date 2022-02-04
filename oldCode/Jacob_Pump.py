@@ -99,7 +99,7 @@ class Pump:
         self.cvolume_statement = "cvolume\r"
         self.serial_pump.write(self.cvolume_statement.encode())
 
-
+'''
 # Thread for testing
 def main():
     test = Pump("COM4", "11 ELITE I/W Single 3.0.6")
@@ -120,3 +120,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+'''

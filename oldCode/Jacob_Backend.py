@@ -51,15 +51,9 @@ class Backend:
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
         self.diam = float(self.gui.diam_entry.get())
-        #self.numPump = float(self.gui.varPump.get())
 
         # Print volume changes for each channel as a sanity check
         print(str(self.deltVol1), str(self.deltVol2), str(self.deltVol3))
-
-        # Check that each pump is properly connected
-        #Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
-        #Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
-        #Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
 
         # Set the pump parameters for Pump 1
         Pump1.c_volume()
@@ -113,8 +107,7 @@ class Backend:
         else:
             Pump3.stop_pump()
                            
-
-        
+    #checks all pumps when check pump button pressed
     def check_button(self):
         Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
         Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
