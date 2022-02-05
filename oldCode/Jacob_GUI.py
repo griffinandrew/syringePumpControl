@@ -131,7 +131,7 @@ class GUI:
 
         #Check Button Controls#
 
-        self.check_button = Button(main, text="Check Pumps", command=lambda: self.backend.check_button()) ##Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
+        self.check_button = Button(main, text="Check Pumps", command=lambda: self.backend.check_button())
         self.check_button.grid(row=6, column=4)
 
         # ------------------#
