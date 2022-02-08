@@ -1,6 +1,6 @@
 from Jacob_Pump import Pump
 from serial import Serial
-
+import multithreading
 
 Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
@@ -106,6 +106,20 @@ class Backend:
             Pump3.infuse_pump()
         else:
             Pump3.stop_pump()
+
+
+    # i believe that if i create a thread for each of pump 1-3 actions it should work concurrently
+
+        def pump_1_thread():
+            self.oldVal1 = self.curVal1
+            self.curVal1 = self.gui.c1.get()
+            self.deltVal1 = self.curVal1 - self.oldVal1
+            self.deltVol1 = 0.01 * self.deltVal1 * float(self.gui.maxvol_entry.get())
+
+
+
+
+
                            
     #checks all pumps when check pump button pressed
     def check_button(self):
