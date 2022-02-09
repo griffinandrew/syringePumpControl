@@ -1,11 +1,15 @@
 from Jacob_Pump import Pump
 from serial import Serial
-#import multithreading
-import threading
+from threading import Thread
 
 Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
 Pump3 = Pump("COM5","11 PICO PLUS ELITE 3.0.7")
+
+#temp vars to store volumes that are being changed each time stored in string for print statements
+vol1=""
+vol2=""
+vol3=""
 
 # Define a class that communicates the values from the GUI to the pumps when the GO button is pushed
 class Backend:
@@ -25,10 +29,7 @@ class Backend:
         self.oldVal3 = 0
         self.curVal3 = 0
 
-
-
     # i believe that if i create a thread for each of pump 1-3 actions it should work concurrently
-
     def pump_1_thread_task(self):
         self.oldVal1 = self.curVal1
 
@@ -38,7 +39,9 @@ class Backend:
 
         self.deltVol1 = 0.01 * self.deltVal1 * float(self.gui.maxvol_entry.get())
 
-        print(str(self.deltVol1))
+
+        global vol1
+        vol1= str(self.deltVol1)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -70,7 +73,8 @@ class Backend:
 
         self.deltVol2 = 0.01 * self.deltVal2 * float(self.gui.maxvol_entry.get())
 
-        print(str(self.deltVol2))
+        global vol2
+        vol2= str(self.deltVol2)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -100,7 +104,10 @@ class Backend:
 
         self.deltVal3 = self.curVal3 - self.oldVal3
 
-        print(str(self.deltVol3))
+        self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get())
+
+        global vol3
+        vol3 = str(self.deltVol3)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -123,28 +130,34 @@ class Backend:
         else:
             Pump3.stop_pump()
 
-
     def buttonPush(self):
-        pump1_thread = threading.Thread(target=thread_task)
-        pump2_thread = threading.Thread(target=pump_2_thread_task)
-        pump3_thread = threading.Thread(target=pump_3_thread_task)
 
+        pump1_thread = Thread(target=self.pump_1_thread_task).start()
+       # pump1_thread.start()
+        pump2_thread = Thread(target=self.pump_2_thread_task).start()
+       # pump2_thread.start()
+        pump3_thread = Thread(target=self.pump_3_thread_task).start()
+        #global vol1, vol2, vol3
+        #(vol1, vol2, vol3)
         #start thread
-        pump1_thread.start()
-        pump2_thread.start()
-        pump3_thread.start()
+        #pump1_thread.start()
+        #pump2_thread.start()
+       # pump3_thread.start()
 
         #wait until all threads done
-        pump1_thread.join()
-        pump2_thread.join()
-        pump3_thread.join()
-
+        #pump1_thread.join()
+        #pump2_thread.join()
+        #pump3_thread.join()
                            
     #checks all pumps when check pump button pressed
     def check_button(self):
         Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
         Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
         Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
+
+    def display_vol_button(self):
+        global vol1, vol2, vol3
+        print(vol1, vol2, vol3)
 
 
 

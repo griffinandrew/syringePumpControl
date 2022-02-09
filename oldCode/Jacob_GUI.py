@@ -134,6 +134,11 @@ class GUI:
         self.check_button = Button(main, text="Check Pumps", command=lambda: self.backend.check_button())
         self.check_button.grid(row=6, column=4)
 
+        # Check Button Controls#
+
+        self.check_button = Button(main, text="Display Volume", command=lambda: self.backend.display_vol_button())
+        self.check_button.grid(row=6, column=6)
+
         # ------------------#
 
         
