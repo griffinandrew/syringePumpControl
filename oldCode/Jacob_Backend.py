@@ -1,6 +1,7 @@
 from Jacob_Pump import Pump
 from serial import Serial
 from threading import Thread
+import multiprocessing
 
 Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
@@ -130,19 +131,26 @@ class Backend:
         else:
             Pump3.stop_pump()
 
+    #TypeError: can't pickle _tkinter.tkapp object
+
     def buttonPush(self):
 
-        pump1_thread = Thread(target=self.pump_1_thread_task).start()
-       # pump1_thread.start()
-        pump2_thread = Thread(target=self.pump_2_thread_task).start()
-       # pump2_thread.start()
-        pump3_thread = Thread(target=self.pump_3_thread_task).start()
+        pump1_thread = Thread(target=self.pump_1_thread_task)
+        #pump1_thread = multiprocessing.Process(target=self.pump_1_thread_task,args=(Pump1,)) #CANT PICKLE
+        pump1_thread.start()
+        pump2_thread = Thread(target=self.pump_2_thread_task)
+        #pump2_thread = multiprocessing.Process(target=self.pump_2_thread_task)
+
+        pump2_thread.start()
+        pump3_thread = Thread(target=self.pump_3_thread_task)
+        #pump3_thread = multiprocessing.Process(target=self.pump_3_thread_task)
+
         #global vol1, vol2, vol3
         #(vol1, vol2, vol3)
         #start thread
         #pump1_thread.start()
         #pump2_thread.start()
-       # pump3_thread.start()
+        pump3_thread.start()
 
         #wait until all threads done
         #pump1_thread.join()
