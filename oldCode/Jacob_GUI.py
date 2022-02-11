@@ -39,9 +39,10 @@ class GUI:
 
 
 #local variable 'c1' referenced before assignment
-        #self.cl = Scale(main, from_=100, to=0, length=300, showvalue=0, command= lambda x: self.get_val(x))
-        self.c1 = Scale(main, from_ = 100, to = 0, length = 300, showvalue = 0, command = lambda x: self.c1_label.configure(text = "Chamber 1:" + " " + x + "%"))
+        self.c1 = Scale(main, from_=100, to=0, length=300, showvalue=0, command= lambda x: self.c1.get_val())
+        #self..c1 = Scale(main, from_ = 100, to = 0, length = 300, showvalue = 0, command = lambda x: self.c1_label.configure(text = "Chamber 1:" + " " + x + "%"))
         print(self.c1) # here it is a scale object
+
         #print(self.c1.get())
 
         self.c1.grid(row = 3, column = 1)

@@ -48,7 +48,7 @@ class Backend:
 
 
         global vol1
-        vol1= str(self.deltVol1)
+        vol1 = str(self.deltVol1)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -143,7 +143,15 @@ class Backend:
         global button_push
         button_push = True
         global vol1, vol2, vol3
-        #while button_push is True:
+        while button_push is True:
+            time.sleep(2)
+            self.check_pumps_different()
+            if chamber_1_diff is True:
+                self.pump_1_thread_task()
+            if chamber_2_diff is True:
+                self.pump_2_thread_task()
+            if chamber_3_diff is True:
+                self.pump_3_thread_task()
 
         #self.pump_1_thread_task()
         #self.pump_2_thread_task()
@@ -153,28 +161,29 @@ class Backend:
 
             #logic to support direct updates as slider is moved
 
-        while button_push is True:
+        #while button_push is True:
             #self.check_pumps_different()
 
-            time.sleep(10)
+            #time.sleep(5)
 
-            self.oldVal1 = self.curVal1
-            self.curVal1 = self.gui.c1.get()
-            if self.oldVal1 != self.curVal1:
-                self.pump_1_thread_task()
-                print(vol1, vol2, vol3)
+            #self.oldVal1 = self.curVal1
+            #self.curVal1 = self.gui.c1.get()
+            #if self.oldVal1 != self.curVal1:
+                #self.pump_1_thread_task()
+                #print(vol1, vol2, vol3)
 
-            self.oldVal2 = self.curVal2
-            self.curVal2 = self.gui.c2.get()
-            if self.curVal2 != self.oldVal2:
-                self.pump_2_thread_task()
-                print(vol1, vol2, vol3)
+            #self.oldVal2 = self.curVal2
+            #self.curVal2 = self.gui.c2.get()
+            #if self.curVal2 != self.oldVal2:
+                #self.pump_2_thread_task()
+                #print(vol1, vol2, vol3)
 
-            self.oldVal3 = self.curVal3
-            self.curVal3 = self.gui.c3.get()
-            if self.oldVal3 != self.curVal3:
-                self.pump_3_thread_task()
-                print(vol1, vol2, vol3)
+            #self.oldVal3 = self.curVal3
+            #self.curVal3 = self.gui.c3.get()
+            #if self.oldVal3 != self.curVal3:
+                #self.pump_3_thread_task()
+
+            #print(vol1, vol2, vol3)
 
 
         #pump1_thread = Thread(target=self.pump_1_thread_task)
@@ -203,6 +212,7 @@ class Backend:
     def check_pumps_different(self):
         global chamber_1_diff, chamber_2_diff, chamber_3_diff
         #pump 1 check
+        time.sleep(2)
         self.oldVal1 = self.curVal1
         self.curVal1 = self.gui.c1.get()
         if self.oldVal1 != self.curVal1:
