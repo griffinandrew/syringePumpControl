@@ -2,6 +2,7 @@ from Jacob_Pump import Pump
 from serial import Serial
 from threading import Thread
 import multiprocessing
+import time
 
 Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
@@ -11,6 +12,11 @@ Pump3 = Pump("COM5","11 PICO PLUS ELITE 3.0.7")
 vol1=""
 vol2=""
 vol3=""
+button_push = False
+
+chamber_1_diff = False
+chamber_2_diff = False
+chamber_3_diff = False
 
 # Define a class that communicates the values from the GUI to the pumps when the GO button is pushed
 class Backend:
@@ -134,15 +140,51 @@ class Backend:
     #TypeError: can't pickle _tkinter.tkapp object
 
     def buttonPush(self):
+        global button_push
+        button_push = True
+        global vol1, vol2, vol3
+        #while button_push is True:
 
-        pump1_thread = Thread(target=self.pump_1_thread_task)
+        #self.pump_1_thread_task()
+        #self.pump_2_thread_task()
+        #self.pump_3_thread_task()
+        #print(vol1, vol2, vol3)
+
+
+            #logic to support direct updates as slider is moved
+
+        while button_push is True:
+            #self.check_pumps_different()
+
+            time.sleep(10)
+
+            self.oldVal1 = self.curVal1
+            self.curVal1 = self.gui.c1.get()
+            if self.oldVal1 != self.curVal1:
+                self.pump_1_thread_task()
+                print(vol1, vol2, vol3)
+
+            self.oldVal2 = self.curVal2
+            self.curVal2 = self.gui.c2.get()
+            if self.curVal2 != self.oldVal2:
+                self.pump_2_thread_task()
+                print(vol1, vol2, vol3)
+
+            self.oldVal3 = self.curVal3
+            self.curVal3 = self.gui.c3.get()
+            if self.oldVal3 != self.curVal3:
+                self.pump_3_thread_task()
+                print(vol1, vol2, vol3)
+
+
+        #pump1_thread = Thread(target=self.pump_1_thread_task)
         #pump1_thread = multiprocessing.Process(target=self.pump_1_thread_task,args=(Pump1,)) #CANT PICKLE
-        pump1_thread.start()
-        pump2_thread = Thread(target=self.pump_2_thread_task)
+        #pump1_thread.start()
+        #pump2_thread = Thread(target=self.pump_2_thread_task)
         #pump2_thread = multiprocessing.Process(target=self.pump_2_thread_task)
 
-        pump2_thread.start()
-        pump3_thread = Thread(target=self.pump_3_thread_task)
+        #pump2_thread.start()
+        #pump3_thread = Thread(target=self.pump_3_thread_task)
         #pump3_thread = multiprocessing.Process(target=self.pump_3_thread_task)
 
         #global vol1, vol2, vol3
@@ -150,13 +192,37 @@ class Backend:
         #start thread
         #pump1_thread.start()
         #pump2_thread.start()
-        pump3_thread.start()
+        #pump3_thread.start()
 
         #wait until all threads done
         #pump1_thread.join()
         #pump2_thread.join()
         #pump3_thread.join()
-                           
+
+
+    def check_pumps_different(self):
+        global chamber_1_diff, chamber_2_diff, chamber_3_diff
+        #pump 1 check
+        self.oldVal1 = self.curVal1
+        self.curVal1 = self.gui.c1.get()
+        if self.oldVal1 != self.curVal1:
+            chamber_1_diff = True
+
+        #pump 2 check
+        self.oldVal2 = self.curVal2
+        self.curVal2 = self.gui.c2.get()
+        if self.curVal2 != self.oldVal2:
+            chamber_2_diff = True
+
+        #Pump 3 check
+        self.oldVal3 = self.curVal3
+        self.curVal3 = self.gui.c3.get()
+        if self.oldVal3 != self.curVal3:
+            chamber_3_diff = True
+
+
+
+
     #checks all pumps when check pump button pressed
     def check_button(self):
         Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
@@ -167,6 +233,18 @@ class Backend:
         global vol1, vol2, vol3
         print(vol1, vol2, vol3)
 
+    def stop_button(self):
+        global button_push
+        button_push = False
+
+    def cmd_1(self):
+        self.gui.c1.get()
+
+    def cmd_2(self):
+        self.gui.c2
+
+    def cmd_3(self):
+        self.gui.c3
 
 
 '''

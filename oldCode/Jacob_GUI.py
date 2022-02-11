@@ -36,8 +36,14 @@ class GUI:
         # ------------------#
         self.up1 = Button(main, text = "\u2B99", command = lambda: self.c1.set(self.c1.get()+1))
         self.up1.grid(row = 2, column = 1)
-        
+
+
+#local variable 'c1' referenced before assignment
+        #self.cl = Scale(main, from_=100, to=0, length=300, showvalue=0, command= lambda x: self.get_val(x))
         self.c1 = Scale(main, from_ = 100, to = 0, length = 300, showvalue = 0, command = lambda x: self.c1_label.configure(text = "Chamber 1:" + " " + x + "%"))
+        print(self.c1) # here it is a scale object
+        #print(self.c1.get())
+
         self.c1.grid(row = 3, column = 1)
         
         self.down1 = Button(main, text = "\u2B9B", command = lambda: self.c1.set(self.c1.get()-1))
@@ -52,7 +58,8 @@ class GUI:
         # ------------------#
         self.up2 = Button(main, text = "\u2B99", command = lambda: self.c2.set(self.c2.get()+1))
         self.up2.grid(row = 2, column = 2)
-        
+
+        #self.c2 = Scale(main, from_=100, to=0, length=300, showvalue=0,command= self.backend.cmd_2())
         self.c2 = Scale(main, from_ = 100, to = 0, length = 300, showvalue = 0, command = lambda x: self.c2_label.configure(text = "Chamber 2:" + " " + x + "%"))
         self.c2.grid(row = 3, column = 2)
         
@@ -68,7 +75,8 @@ class GUI:
         # ------------------#
         self.up3 = Button(main, text = "\u2B99", command = lambda: self.c3.set(self.c3.get()+1))
         self.up3.grid(row = 2, column = 3)
-        
+
+        #self.c3 = Scale(main, from_=100, to=0, length=300, showvalue=0,command=self.backend.cmd_3())
         self.c3 = Scale(main, from_ = 100, to = 0, length = 300, showvalue = 0, command = lambda x: self.c3_label.configure(text = "Chamber 3:" + " " + x + "%"))
         self.c3.grid(row = 3, column = 3)
         
@@ -136,12 +144,19 @@ class GUI:
 
         # Check Button Controls#
 
-        self.check_button = Button(main, text="Display Volume", command=lambda: self.backend.display_vol_button())
-        self.check_button.grid(row=6, column=6)
+        self.display_vol_button = Button(main, text="Display Volume", command=lambda: self.backend.display_vol_button())
+        self.display_vol_button.grid(row=6, column=6)
+
+        # Stop Button Controls#
+        self.display_vol_button = Button(main, text="Stop Pumps", command=lambda: self.backend.stop_button())
+        self.display_vol_button.grid(row=6, column=8)
+
 
         # ------------------#
 
-        
+
+
+
 
 if __name__ == "__main__":
     GUI()
