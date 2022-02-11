@@ -46,7 +46,6 @@ class Backend:
 
         self.deltVol1 = 0.01 * self.deltVal1 * float(self.gui.maxvol_entry.get())
 
-
         global vol1
         vol1 = str(self.deltVol1)
 
@@ -81,7 +80,7 @@ class Backend:
         self.deltVol2 = 0.01 * self.deltVal2 * float(self.gui.maxvol_entry.get())
 
         global vol2
-        vol2= str(self.deltVol2)
+        vol2 = str(self.deltVol2)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -144,7 +143,8 @@ class Backend:
         button_push = True
         global vol1, vol2, vol3
         while button_push is True:
-            time.sleep(2)
+
+
             self.check_pumps_different()
             if chamber_1_diff is True:
                 self.pump_1_thread_task()
@@ -152,6 +152,8 @@ class Backend:
                 self.pump_2_thread_task()
             if chamber_3_diff is True:
                 self.pump_3_thread_task()
+            #button_push = False
+            time.sleep(15)
 
         #self.pump_1_thread_task()
         #self.pump_2_thread_task()
@@ -212,25 +214,26 @@ class Backend:
     def check_pumps_different(self):
         global chamber_1_diff, chamber_2_diff, chamber_3_diff
         #pump 1 check
-        time.sleep(2)
-        self.oldVal1 = self.curVal1
-        self.curVal1 = self.gui.c1.get()
-        if self.oldVal1 != self.curVal1:
+        #time.sleep(2)
+        oldVal_1 = self.curVal1
+        curVal_1 = self.gui.c1.get()
+        if oldVal_1 != curVal_1:
             chamber_1_diff = True
+            print("chamber 1")
 
         #pump 2 check
-        self.oldVal2 = self.curVal2
-        self.curVal2 = self.gui.c2.get()
-        if self.curVal2 != self.oldVal2:
+        oldVal_2 = self.curVal2
+        curVal_2 = self.gui.c2.get()
+        if curVal_2 != oldVal_2:
             chamber_2_diff = True
+            print("chamber 2")
 
         #Pump 3 check
-        self.oldVal3 = self.curVal3
-        self.curVal3 = self.gui.c3.get()
-        if self.oldVal3 != self.curVal3:
+        oldVal_3 = self.curVal3
+        curVal_3 = self.gui.c3.get()
+        if oldVal_3 != curVal_3:
             chamber_3_diff = True
-
-
+            print("chamber 3")
 
 
     #checks all pumps when check pump button pressed
@@ -246,15 +249,6 @@ class Backend:
     def stop_button(self):
         global button_push
         button_push = False
-
-    def cmd_1(self):
-        self.gui.c1.get()
-
-    def cmd_2(self):
-        self.gui.c2
-
-    def cmd_3(self):
-        self.gui.c3
 
 
 '''
