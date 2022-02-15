@@ -1,18 +1,49 @@
 # Import TKinter module to build the GUI
 import tkinter as tk
 from tkinter import *
+import time
 
 from Jacob_Backend import Backend
 
 main = tk.Tk()
 
+global val1, val2, val3
+global ol_val1, ol_val2, ol_val3
+
+val1 = 0
+val2 = 0
+val3 = 0
+
 class GUI:
+#update_idletasks potential method to use
+    def update_after(self):
+        global val1, val2, val3
+        global ol_val1, ol_val2, ol_val3
+        ol_val1 = val1
+        ol_val2 = val2
+        ol_val3 = val3
+        val1 = self.c1.get()
+        val2 = self.c2.get()
+        val3 = self.c3.get()
+        print(ol_val1, ol_val2, ol_val3)
+        print(val1, val2, val3)
+        self.check_different(val1, val2, val3)
+        main.after(15000, self.update_after)
+
+    def check_different(self,value1,value2,value3):
+        if val1 != ol_val1:
+            self.backend.pump_1_thread_task()
+        if val2 != ol_val2:
+            self.backend.pump_2_thread_task()
+        if val3 != ol_val3:
+            self.backend.pump_3_thread_task()
+
 
     def __init__(self):
 
         # Import the Backend code to communicate with the pumps
         self.backend = Backend(self)
-        
+
 
         # Initialize sliders at 0
         self.c1 = 0
@@ -37,11 +68,8 @@ class GUI:
         self.up1 = Button(main, text = "\u2B99", command = lambda: self.c1.set(self.c1.get()+1))
         self.up1.grid(row = 2, column = 1)
 
-
-#local variable 'c1' referenced before assignment
-        #self.c1 = Scale(main, from_=100, to=0, length=300, showvalue=0, command= self.c1.get())
         self.c1 = Scale(main, from_ = 100, to = 0, length = 300, showvalue = 0, command = lambda x: self.c1_label.configure(text = "Chamber 1:" + " " + x + "%"))
-        print(self.c1) # here it is a scale object
+        #print(self.c1) # here it is a scale object
 
         #print(self.c1.get())
 
@@ -152,8 +180,6 @@ class GUI:
         self.display_vol_button = Button(main, text="Stop Pumps", command=lambda: self.backend.stop_button())
         self.display_vol_button.grid(row=6, column=8)
 
-
-        # ------------------#
 
 
 if __name__ == "__main__":

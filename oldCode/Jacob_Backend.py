@@ -142,18 +142,27 @@ class Backend:
         global button_push
         button_push = True
         global vol1, vol2, vol3
-        while button_push is True:
+        global val1, val2, val3
+        self.gui.update_after()
 
 
-            self.check_pumps_different()
-            if chamber_1_diff is True:
-                self.pump_1_thread_task()
-            if chamber_2_diff is True:
-                self.pump_2_thread_task()
-            if chamber_3_diff is True:
-                self.pump_3_thread_task()
+
+        #while button_push:
+            #start_time = time.time()
+
+
+            #self.check_pumps_different()
+            #if chamber_1_diff is True:
+                #self.pump_1_thread_task()
+            #if chamber_2_diff is True:
+                #self.pump_2_thread_task()
+            #if chamber_3_diff is True:
+                #self.pump_3_thread_task()
             #button_push = False
-            time.sleep(15)
+            #print(vol1, vol2, vol3)
+            #total_time = time.time() - start_time
+            #print(total_time)
+            #time.sleep(15)
 
         #self.pump_1_thread_task()
         #self.pump_2_thread_task()
@@ -249,6 +258,8 @@ class Backend:
     def stop_button(self):
         global button_push
         button_push = False
+
+
 
 
 '''
