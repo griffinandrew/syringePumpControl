@@ -5,6 +5,8 @@ import time
 
 from Jacob_Backend import Backend
 
+import Jacob_Pump
+
 main = tk.Tk()
 
 global val1, val2, val3
@@ -14,6 +16,10 @@ val1 = 0
 val2 = 0
 val3 = 0
 
+global status
+
+status = False #not sure about proper intializtion
+
 class GUI:
 #update_idletasks potential method to use
     def update_after(self):
@@ -22,6 +28,11 @@ class GUI:
         ol_val1 = val1
         ol_val2 = val2
         ol_val3 = val3
+        self.pump_complete
+        assert(status is True) # assert stops program if condition is not met need to use something slighty different
+
+        #im goin to need to add some sort of assert to ensure that the pumps have completed moving to the correct volume before updating again
+
         val1 = self.c1.get()
         val2 = self.c2.get()
         val3 = self.c3.get()
@@ -37,6 +48,15 @@ class GUI:
             self.backend.pump_2_thread_task()
         if val3 != ol_val3:
             self.backend.pump_3_thread_task()
+
+    def pump_complete(self):
+        global status
+        if Jacob_Pump.pump_infusing is True or Jacob_Pump.pump_withdrawing is True:
+            status = False
+        else:
+            status = True
+
+
 
 
     def __init__(self):
