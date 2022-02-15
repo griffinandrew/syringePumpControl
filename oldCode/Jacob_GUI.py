@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import *
 import time
+import waiting
 
 from Jacob_Backend import Backend
 
@@ -16,22 +17,18 @@ val1 = 0
 val2 = 0
 val3 = 0
 
-global status
-
 status = False #not sure about proper intializtion
 
 class GUI:
-#update_idletasks potential method to use
+
     def update_after(self):
         global val1, val2, val3
         global ol_val1, ol_val2, ol_val3
+
+        # self.pump_complete
         ol_val1 = val1
         ol_val2 = val2
         ol_val3 = val3
-        self.pump_complete
-        assert(status is True) # assert stops program if condition is not met need to use something slighty different
-
-        #im goin to need to add some sort of assert to ensure that the pumps have completed moving to the correct volume before updating again
 
         val1 = self.c1.get()
         val2 = self.c2.get()
@@ -39,9 +36,9 @@ class GUI:
         print(ol_val1, ol_val2, ol_val3)
         print(val1, val2, val3)
         self.check_different(val1, val2, val3)
-        main.after(15000, self.update_after)
+        main.after(500, self.update_after) #this function is in here because I need access to main
 
-    def check_different(self,value1,value2,value3):
+    def check_different(self, value1, value2, value3):
         if val1 != ol_val1:
             self.backend.pump_1_thread_task()
         if val2 != ol_val2:
@@ -49,49 +46,31 @@ class GUI:
         if val3 != ol_val3:
             self.backend.pump_3_thread_task()
 
-    def pump_complete(self):
-        global status
-        if Jacob_Pump.pump_infusing is True or Jacob_Pump.pump_withdrawing is True:
-            status = False
-        else:
-            status = True
-
-
-
-
     def __init__(self):
-
         # Import the Backend code to communicate with the pumps
         self.backend = Backend(self)
-
 
         # Initialize sliders at 0
         self.c1 = 0
         self.c2 = 0
         self.c3 = 0
-        
 
         # Initialize syringe pump parameters at 0
         self.diam = 0
         self.vol = 0
         self.rate = 0
         self.max = 0
-        
-        
+
         # Title
         self.title = Label(main, text = "Syringe Control Panel")
         self.title.grid(row = 1, column = 2)
-        
-        
+
         # Chamber 1 controls
         # ------------------#
         self.up1 = Button(main, text = "\u2B99", command = lambda: self.c1.set(self.c1.get()+1))
         self.up1.grid(row = 2, column = 1)
 
         self.c1 = Scale(main, from_ = 100, to = 0, length = 300, showvalue = 0, command = lambda x: self.c1_label.configure(text = "Chamber 1:" + " " + x + "%"))
-        #print(self.c1) # here it is a scale object
-
-        #print(self.c1.get())
 
         self.c1.grid(row = 3, column = 1)
         
@@ -101,14 +80,12 @@ class GUI:
         self.c1_label = Label(main, text = "Chamber 1:" + " " + str(self.c1.get()) + "%")
         self.c1_label.grid(row = 5, column = 1)
         # ------------------#
-        
-        
+
         # Chamber 2 controls
         # ------------------#
         self.up2 = Button(main, text = "\u2B99", command = lambda: self.c2.set(self.c2.get()+1))
         self.up2.grid(row = 2, column = 2)
 
-        #self.c2 = Scale(main, from_=100, to=0, length=300, showvalue=0,command= self.backend.cmd_2())
         self.c2 = Scale(main, from_ = 100, to = 0, length = 300, showvalue = 0, command = lambda x: self.c2_label.configure(text = "Chamber 2:" + " " + x + "%"))
         self.c2.grid(row = 3, column = 2)
         
@@ -197,9 +174,8 @@ class GUI:
         self.display_vol_button.grid(row=6, column=6)
 
         # Stop Button Controls#
-        self.display_vol_button = Button(main, text="Stop Pumps", command=lambda: self.backend.stop_button())
-        self.display_vol_button.grid(row=6, column=8)
-
+        self.stop_button = Button(main, text="Stop Pumps", command=lambda: self.backend.stop_button())
+        self.stop_button.grid(row=6, column=8)
 
 
 if __name__ == "__main__":

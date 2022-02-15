@@ -14,6 +14,7 @@ vol2=""
 vol3=""
 button_push = False
 
+
 chamber_1_diff = False
 chamber_2_diff = False
 chamber_3_diff = False
@@ -36,7 +37,6 @@ class Backend:
         self.oldVal3 = 0
         self.curVal3 = 0
 
-    # i believe that if i create a thread for each of pump 1-3 actions it should work concurrently
     def pump_1_thread_task(self):
         self.oldVal1 = self.curVal1
 
@@ -44,10 +44,10 @@ class Backend:
 
         self.deltVal1 = self.curVal1 - self.oldVal1
 
-        self.deltVol1 = 0.01 * self.deltVal1 * float(self.gui.maxvol_entry.get())
+        self.curVol1 = 0.01 * self.curVal1 * float(self.gui.maxvol_entry.get())
 
         global vol1
-        vol1 = str(self.deltVol1)
+        vol1 = str(self.curVol1)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -61,11 +61,11 @@ class Backend:
         Pump1.syringe_diam(str(self.diam))
         Pump1.infuse_rate(str(self.rate), "ml/min")
         Pump1.withdraw_rate(str(self.rate), "ml/min")
-        Pump1.target_volume(str(abs(self.deltVol1)), "ml")
+        Pump1.target_volume(str(abs(self.curVol1)), "ml")
 
-        if self.deltVol1 < 0:
+        if self.deltVal1 < 0:
             Pump1.withdraw_pump()
-        elif self.deltVol1 > 0:
+        elif self.deltVal1 > 0:
             Pump1.infuse_pump()
         else:
             Pump1.stop_pump()
@@ -77,10 +77,10 @@ class Backend:
 
         self.deltVal2 = self.curVal2 - self.oldVal2
 
-        self.deltVol2 = 0.01 * self.deltVal2 * float(self.gui.maxvol_entry.get())
+        self.curVol2 = 0.01 * self.curVal2 * float(self.gui.maxvol_entry.get())
 
         global vol2
-        vol2 = str(self.deltVol2)
+        vol2 = str(self.curVol2)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -94,11 +94,11 @@ class Backend:
         Pump2.syringe_diam(str(self.diam))
         Pump2.infuse_rate(str(self.rate), "ml/min")
         Pump2.withdraw_rate(str(self.rate), "ml/min")
-        Pump2.target_volume(str(abs(self.deltVol2)), "ml")
+        Pump2.target_volume(str(abs(self.curVol2)), "ml")
 
-        if self.deltVol2 < 0:
+        if self.deltVal2 < 0:
             Pump2.withdraw_pump()
-        elif self.deltVol2 > 0:
+        elif self.deltVal2 > 0:
             Pump2.infuse_pump()
         else:
             Pump2.stop_pump()
@@ -110,10 +110,10 @@ class Backend:
 
         self.deltVal3 = self.curVal3 - self.oldVal3
 
-        self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get())
+        self.curVol3 = 0.01 * self.curVal3 * float(self.gui.maxvol_entry.get())
 
         global vol3
-        vol3 = str(self.deltVol3)
+        vol3 = str(self.curVol3)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -127,11 +127,11 @@ class Backend:
         Pump3.syringe_diam(str(self.diam))
         Pump3.infuse_rate(str(self.rate), "ml/min")
         Pump3.withdraw_rate(str(self.rate), "ml/min")
-        Pump3.target_volume(str(abs(self.deltVol3)), "ml")
+        Pump3.target_volume(str(abs(self.curVol3)), "ml")
 
-        if self.deltVol3 < 0:
+        if self.deltVal3 < 0:
             Pump3.withdraw_pump()
-        elif self.deltVol3 > 0:
+        elif self.deltVal3 > 0:
             Pump3.infuse_pump()
         else:
             Pump3.stop_pump()
@@ -146,105 +146,6 @@ class Backend:
         self.gui.update_after()
 
 
-
-        #while button_push:
-            #start_time = time.time()
-
-
-            #self.check_pumps_different()
-            #if chamber_1_diff is True:
-                #self.pump_1_thread_task()
-            #if chamber_2_diff is True:
-                #self.pump_2_thread_task()
-            #if chamber_3_diff is True:
-                #self.pump_3_thread_task()
-            #button_push = False
-            #print(vol1, vol2, vol3)
-            #total_time = time.time() - start_time
-            #print(total_time)
-            #time.sleep(15)
-
-        #self.pump_1_thread_task()
-        #self.pump_2_thread_task()
-        #self.pump_3_thread_task()
-        #print(vol1, vol2, vol3)
-
-
-            #logic to support direct updates as slider is moved
-
-        #while button_push is True:
-            #self.check_pumps_different()
-
-            #time.sleep(5)
-
-            #self.oldVal1 = self.curVal1
-            #self.curVal1 = self.gui.c1.get()
-            #if self.oldVal1 != self.curVal1:
-                #self.pump_1_thread_task()
-                #print(vol1, vol2, vol3)
-
-            #self.oldVal2 = self.curVal2
-            #self.curVal2 = self.gui.c2.get()
-            #if self.curVal2 != self.oldVal2:
-                #self.pump_2_thread_task()
-                #print(vol1, vol2, vol3)
-
-            #self.oldVal3 = self.curVal3
-            #self.curVal3 = self.gui.c3.get()
-            #if self.oldVal3 != self.curVal3:
-                #self.pump_3_thread_task()
-
-            #print(vol1, vol2, vol3)
-
-
-        #pump1_thread = Thread(target=self.pump_1_thread_task)
-        #pump1_thread = multiprocessing.Process(target=self.pump_1_thread_task,args=(Pump1,)) #CANT PICKLE
-        #pump1_thread.start()
-        #pump2_thread = Thread(target=self.pump_2_thread_task)
-        #pump2_thread = multiprocessing.Process(target=self.pump_2_thread_task)
-
-        #pump2_thread.start()
-        #pump3_thread = Thread(target=self.pump_3_thread_task)
-        #pump3_thread = multiprocessing.Process(target=self.pump_3_thread_task)
-
-        #global vol1, vol2, vol3
-        #(vol1, vol2, vol3)
-        #start thread
-        #pump1_thread.start()
-        #pump2_thread.start()
-        #pump3_thread.start()
-
-        #wait until all threads done
-        #pump1_thread.join()
-        #pump2_thread.join()
-        #pump3_thread.join()
-
-
-    def check_pumps_different(self):
-        global chamber_1_diff, chamber_2_diff, chamber_3_diff
-        #pump 1 check
-        #time.sleep(2)
-        oldVal_1 = self.curVal1
-        curVal_1 = self.gui.c1.get()
-        if oldVal_1 != curVal_1:
-            chamber_1_diff = True
-            print("chamber 1")
-
-        #pump 2 check
-        oldVal_2 = self.curVal2
-        curVal_2 = self.gui.c2.get()
-        if curVal_2 != oldVal_2:
-            chamber_2_diff = True
-            print("chamber 2")
-
-        #Pump 3 check
-        oldVal_3 = self.curVal3
-        curVal_3 = self.gui.c3.get()
-        if oldVal_3 != curVal_3:
-            chamber_3_diff = True
-            print("chamber 3")
-
-
     #checks all pumps when check pump button pressed
     def check_button(self):
         Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
@@ -255,11 +156,10 @@ class Backend:
         global vol1, vol2, vol3
         print(vol1, vol2, vol3)
 
-    def stop_button(self):
+#this will not work for current implementation
+    def stop_button(self): #this should just call stop pump nyi
         global button_push
         button_push = False
-
-
 
 
 '''

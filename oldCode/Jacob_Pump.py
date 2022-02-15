@@ -65,17 +65,17 @@ class Pump:
 
     # Define a function that tells the pump to infuse
     def infuse_pump(self):
-        if not self.pump_infusing:
-            self.serial_pump.write(b'irun\r')
-            self.pump_infusing = True
-            self.pump_withdrawing = False
+        #if not self.pump_infusing:
+        self.serial_pump.write(b'irun\r')
+        self.pump_infusing = True
+        self.pump_withdrawing = False
 
     # Define a function that tells the pump to withdraw
     def withdraw_pump(self):
-        if not self.pump_withdrawing:
-            self.serial_pump.write(b'wrun\r')
-            self.pump_infusing = False
-            self.pump_withdrawing = True
+        #if not self.pump_withdrawing:
+        self.serial_pump.write(b'wrun\r')
+        self.pump_infusing = False
+        self.pump_withdrawing = True
 
     # Define a function that tells the pump to stop
     def stop_pump(self):
