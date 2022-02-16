@@ -1,12 +1,9 @@
 # Import TKinter module to build the GUI
 import tkinter as tk
 from tkinter import *
-import time
-import waiting
 
 from Jacob_Backend import Backend
 
-import Jacob_Pump
 
 main = tk.Tk()
 
@@ -25,7 +22,6 @@ class GUI:
         global val1, val2, val3
         global ol_val1, ol_val2, ol_val3
 
-        # self.pump_complete
         ol_val1 = val1
         ol_val2 = val2
         ol_val3 = val3
@@ -33,18 +29,21 @@ class GUI:
         val1 = self.c1.get()
         val2 = self.c2.get()
         val3 = self.c3.get()
-        print(ol_val1, ol_val2, ol_val3)
-        print(val1, val2, val3)
-        self.check_different(val1, val2, val3)
-        main.after(500, self.update_after) #this function is in here because I need access to main
 
-    def check_different(self, value1, value2, value3):
+        #check if cural and old_val are different if they r actuate that pump
+        self.check_different()
+
+        main.after(500, self.update_after) #this function is in here because I need access to main(that why its not in backend)
+        #every .5 sec it recursively calls itself and checks the values if they r diff pumps get moved
+
+    def check_different(self): # this is really the driver of the program if the values are different bc its being slid it will run that task for the apprppritate task
         if val1 != ol_val1:
             self.backend.pump_1_thread_task()
         if val2 != ol_val2:
             self.backend.pump_2_thread_task()
         if val3 != ol_val3:
             self.backend.pump_3_thread_task()
+        print(val1, val2, val3)
 
     def __init__(self):
         # Import the Backend code to communicate with the pumps
