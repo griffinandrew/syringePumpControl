@@ -1,8 +1,8 @@
 from Jacob_Pump import Pump
 
-Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
-Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
-Pump3 = Pump("COM5","11 PICO PLUS ELITE 3.0.7")
+Pump1 = Pump("COM17","11 PICO PLUS ELITE 3.0.7")
+Pump2 = Pump("COM18","11 PICO PLUS ELITE 3.0.7")
+Pump3 = Pump("COM19","11 PICO PLUS ELITE 3.0.7")
 
 #temp vars to store volumes that are being changed each time stored in string for print statements
 vol1=""
@@ -106,6 +106,8 @@ class Backend:
 
         self.curVol3 = 0.01 * self.curVal3 * float(self.gui.maxvol_entry.get()) #curVol determines the target volume as a percentage of max vol
 
+        self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get())
+
         global vol3
         vol3 = str(self.curVol3)
 
@@ -121,7 +123,24 @@ class Backend:
         Pump3.syringe_diam(str(self.diam))
         Pump3.infuse_rate(str(self.rate), "ml/min")
         Pump3.withdraw_rate(str(self.rate), "ml/min")
-        Pump3.target_volume(str(abs(self.curVol3)), "ml") # target vol based off of curVol
+
+        ##########
+
+        #pump infusion target is more complicated then what I initailly thought, you will need to record
+        #some delta val but not necessarily based off the target volume, just the amount pumped in at the time of the change
+        #recording or generating this value I need to fiugre out
+        #i may haeve to experiment with different methods of updating the values as the freq of checking the update is resulting in this bug
+
+
+        ########
+
+
+        if self.curVol3 != 0:               # you actually do need the data or some change
+            Pump3.target_volume(str(abs(self.curVol3)), "ml") # target vol based off of curVol
+        else:
+            #withdraw volume will be dependent on the total amount infused no target parameter
+
+            Pump3.target_volume(str(abs(self.deltVol3)), "ml") #same probelm arises when from using delt
 
         if self.deltVal3 < 0: #deltVal is just being used to see if withdraw or infuse
             Pump3.withdraw_pump()
