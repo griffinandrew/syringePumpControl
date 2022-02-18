@@ -99,6 +99,16 @@ class Pump:
         self.cvolume_statement = "cvolume\r"
         self.serial_pump.write(self.cvolume_statement.encode())
 
+    #function that sets or displays the syringe volume
+    def s_volume(self):
+        self.s_volume_statement = "svolume\r"
+        self.serial_pump.write(self.s_volume_statement.encode())
+
+
+    def i_volume(self):
+        self.i_volume_statement = "ivolume\r"
+        self.serial_pump.write(self.i_volume_statement.encode())
+
 '''
 # Thread for testing
 def main():

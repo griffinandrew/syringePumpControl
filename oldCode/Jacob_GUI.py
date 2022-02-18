@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import *
 
 from Jacob_Backend import Backend
-
+from Jacob_Pump import Pump
 
 main = tk.Tk()
 
@@ -15,6 +15,11 @@ val2 = 0
 val3 = 0
 
 status = False #not sure about proper intializtion
+
+#Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
+#Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
+#Pump3 = Pump("COM5","11 PICO PLUS ELITE 3.0.7")
+
 
 class GUI:
 
@@ -43,7 +48,7 @@ class GUI:
             self.backend.pump_2_thread_task()
         if val3 != ol_val3:
             self.backend.pump_3_thread_task()
-        print(val1, val2, val3)
+        #print(val1, val2, val3)
 
     def __init__(self):
         # Import the Backend code to communicate with the pumps

@@ -1,8 +1,8 @@
 from Jacob_Pump import Pump
 
-Pump1 = Pump("COM17","11 PICO PLUS ELITE 3.0.7")
-Pump2 = Pump("COM18","11 PICO PLUS ELITE 3.0.7")
-Pump3 = Pump("COM19","11 PICO PLUS ELITE 3.0.7")
+Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
+Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
+Pump3 = Pump("COM5","11 PICO PLUS ELITE 3.0.7")
 
 #temp vars to store volumes that are being changed each time stored in string for print statements
 vol1=""
@@ -98,6 +98,16 @@ class Backend:
             Pump2.stop_pump()
 
     def pump_3_thread_task(self):
+        Pump3.s_volume()
+        y = Pump3.s_volume()
+        print("s_volume")
+        print(y)
+
+        Pump3.i_volume()
+        x = Pump3.i_volume()
+        print("i_volume")
+        print(x)
+
         self.oldVal3 = self.curVal3
 
         self.curVal3 = self.gui.c3.get()
@@ -135,12 +145,12 @@ class Backend:
         ########
 
 
-        if self.curVol3 != 0:               # you actually do need the data or some change
-            Pump3.target_volume(str(abs(self.curVol3)), "ml") # target vol based off of curVol
-        else:
+        #if self.curVol3 != 0:               # you actually do need the data or some change
+        Pump3.target_volume(str(abs(self.curVol3)), "ml") # target vol based off of curVol
+        #else:
             #withdraw volume will be dependent on the total amount infused no target parameter
 
-            Pump3.target_volume(str(abs(self.deltVol3)), "ml") #same probelm arises when from using delt
+            #Pump3.target_volume(str(abs(self.deltVol3)), "ml") #same probelm arises when from using delt
 
         if self.deltVal3 < 0: #deltVal is just being used to see if withdraw or infuse
             Pump3.withdraw_pump()
@@ -149,13 +159,27 @@ class Backend:
         else:
             Pump3.stop_pump()
 
+        y = Pump3.s_volume()
+        print("s_volume2")
+        print(y)
+
+        x = Pump3.i_volume()
+        print("i_volume2")
+        print(x)
+
+
+
+
     #TypeError: can't pickle _tkinter.tkapp object
 
     def buttonPush(self):
         global button_push
-        button_push = True
-        global vol1, vol2, vol3
-        global val1, val2, val3
+        button_push = True #don't think this matters  in here
+        #global vol1, vol2, vol3
+        #global val1, val2, val3
+
+        #self.Jacob_Pump.s_volume
+
         self.gui.update_after()
 
 
