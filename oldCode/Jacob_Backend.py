@@ -1,4 +1,7 @@
 from Jacob_Pump import Pump
+import serial
+
+import Jacob_Pump
 
 Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
@@ -98,15 +101,15 @@ class Backend:
             Pump2.stop_pump()
 
     def pump_3_thread_task(self):
-        Pump3.s_volume()
-        y = Pump3.s_volume()
-        print("s_volume")
-        print(y)
+       # Pump3.s_volume()
+     #   y = Pump3.s_volume()
+      #  print("s_volume")
+      #  print(y)
 
-        Pump3.i_volume()
-        x = Pump3.i_volume()
-        print("i_volume")
-        print(x)
+       # Pump3.i_volume()
+      #  x = Pump3.i_volume()
+      #  print("i_volume")
+      #  print(x)
 
         self.oldVal3 = self.curVal3
 
@@ -159,13 +162,13 @@ class Backend:
         else:
             Pump3.stop_pump()
 
-        y = Pump3.s_volume()
-        print("s_volume2")
-        print(y)
+        #y = Pump3.s_volume()
+        #print("s_volume2")
+        #print(y)
 
-        x = Pump3.i_volume()
-        print("i_volume2")
-        print(x)
+        #x = Pump3.i_volume()
+       # print("i_volume2")
+        #print(x)
 
 
 
@@ -197,3 +200,41 @@ class Backend:
         Pump1.stop_pump()
         Pump2.stop_pump()
         Pump3.stop_pump()
+
+    def volume_check(self):
+        #b = Pump1.s_volume()
+        #Pump1.s_volume()
+        #print("P1 s_volume")
+        #print(b)
+
+        #a = Pump1.i_volume()
+        #print("P1 i_volume")
+        #print(a)
+
+        #q = Pump2.s_volume()
+        #print("P2 s_volume")
+        #print(q)
+
+        #z = Pump2.i_volume()
+        #print("P2 i_volume")
+        #print(z)
+
+        Pump3.s_volume()
+        tmp = self.Jacob_Pump.Pump.serial_pump.read(1000)
+        print(tmp)
+
+
+        #y = Pump3.s_volume()
+        #print("P3 s_volume")
+        #print(y)
+
+        Pump3.i_volume()
+        #x = Pump3.i_volume()
+        #print("P3 i_volume")
+        #print(x)
+
+        Pump3.itime()
+
+        #k = Pump3.itime()
+        #print("i time")
+        #print(k)

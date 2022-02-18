@@ -15,6 +15,8 @@ class Pump:
         self.targetvolume_statement = None
         self.pump_infusing = False
         self.pump_withdrawing = False
+        self.i_volume_statement = None
+        self.s_volume_statement = None
 
     # Define a function to ensure the pump is properly connected and turn off nvram
     def check_pump(self, name):
@@ -104,10 +106,13 @@ class Pump:
         self.s_volume_statement = "svolume\r"
         self.serial_pump.write(self.s_volume_statement.encode())
 
-
     def i_volume(self):
         self.i_volume_statement = "ivolume\r"
         self.serial_pump.write(self.i_volume_statement.encode())
+
+    def itime(self):
+        self.itime_statement = "itime\r"
+        self.serial_pump.write(self.itime_statement.encode())
 
 '''
 # Thread for testing

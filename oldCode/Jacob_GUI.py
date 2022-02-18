@@ -36,6 +36,7 @@ class GUI:
         val3 = self.c3.get()
 
         #check if cural and old_val are different if they r actuate that pump
+        self.syringe_and_infused_vol_check()
         self.check_different()
 
         main.after(500, self.update_after) #this function is in here because I need access to main(that why its not in backend)
@@ -49,6 +50,11 @@ class GUI:
         if val3 != ol_val3:
             self.backend.pump_3_thread_task()
         #print(val1, val2, val3)
+
+
+    def syringe_and_infused_vol_check(self):
+        self.backend.volume_check()
+        #main.after(500, self.syringe_and_infused_vol_check)
 
     def __init__(self):
         # Import the Backend code to communicate with the pumps
