@@ -1,7 +1,6 @@
 from Jacob_Pump import Pump
 import serial
 
-import Jacob_Pump
 
 Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
@@ -101,16 +100,6 @@ class Backend:
             Pump2.stop_pump()
 
     def pump_3_thread_task(self):
-       # Pump3.s_volume()
-     #   y = Pump3.s_volume()
-      #  print("s_volume")
-      #  print(y)
-
-       # Pump3.i_volume()
-      #  x = Pump3.i_volume()
-      #  print("i_volume")
-      #  print(x)
-
         self.oldVal3 = self.curVal3
 
         self.curVal3 = self.gui.c3.get()
@@ -162,27 +151,11 @@ class Backend:
         else:
             Pump3.stop_pump()
 
-        #y = Pump3.s_volume()
-        #print("s_volume2")
-        #print(y)
-
-        #x = Pump3.i_volume()
-       # print("i_volume2")
-        #print(x)
-
-
-
-
     #TypeError: can't pickle _tkinter.tkapp object
 
     def buttonPush(self):
-        global button_push
-        button_push = True #don't think this matters  in here
-        #global vol1, vol2, vol3
-        #global val1, val2, val3
-
-        #self.Jacob_Pump.s_volume
-
+        #global button_push
+       # button_push = True #don't think this matters  in here
         self.gui.update_after()
 
 
@@ -201,40 +174,11 @@ class Backend:
         Pump2.stop_pump()
         Pump3.stop_pump()
 
-    def volume_check(self):
-        #b = Pump1.s_volume()
-        #Pump1.s_volume()
-        #print("P1 s_volume")
-        #print(b)
+    def syringe_volume_check_P1(self):
+        Pump1.syringe_volume()
 
-        #a = Pump1.i_volume()
-        #print("P1 i_volume")
-        #print(a)
+    def syringe_volume_check_P2(self):
+        Pump2.syringe_volume()
 
-        #q = Pump2.s_volume()
-        #print("P2 s_volume")
-        #print(q)
-
-        #z = Pump2.i_volume()
-        #print("P2 i_volume")
-        #print(z)
-
-        Pump3.s_volume()
-        tmp = self.Jacob_Pump.Pump.serial_pump.read(1000)
-        print(tmp)
-
-
-        #y = Pump3.s_volume()
-        #print("P3 s_volume")
-        #print(y)
-
-        Pump3.i_volume()
-        #x = Pump3.i_volume()
-        #print("P3 i_volume")
-        #print(x)
-
-        Pump3.itime()
-
-        #k = Pump3.itime()
-        #print("i time")
-        #print(k)
+    def syringe_volume_check_P3(self):
+        Pump3.syringe_volume()

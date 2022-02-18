@@ -1,5 +1,11 @@
 # Import modules for testing thread
 import serial
+import re
+
+#the volume pumped in when the
+#global syr_vol_real
+
+#syr_vol_real = ''
 
 
 # Create a class of functions called "Pump" to control the Harvard Apparatus Pump 11 Elite series pumps
@@ -17,6 +23,7 @@ class Pump:
         self.pump_withdrawing = False
         self.i_volume_statement = None
         self.s_volume_statement = None
+        self.syr_vol_real = 0
 
     # Define a function to ensure the pump is properly connected and turn off nvram
     def check_pump(self, name):
@@ -101,7 +108,7 @@ class Pump:
         self.cvolume_statement = "cvolume\r"
         self.serial_pump.write(self.cvolume_statement.encode())
 
-    #function that sets or displays the syringe volume
+    #function that sets or displays the syringe volume, its will always just be whatever u set it to at start up
     def s_volume(self):
         self.s_volume_statement = "svolume\r"
         self.serial_pump.write(self.s_volume_statement.encode())
@@ -114,25 +121,34 @@ class Pump:
         self.itime_statement = "itime\r"
         self.serial_pump.write(self.itime_statement.encode())
 
-'''
-# Thread for testing
-def main():
-    test = Pump("COM4", "11 ELITE I/W Single 3.0.6")
-    
-    test.check_pump("11 ELITE I/W Single 3.0.6")
-    
-    test.syringe_vol("50")
-    test.syringe_diam("28.5")
-    test.infuse_rate("20", "ml/min")
-    test.withdraw_rate("20", "ml/min")
-    test.target_volume("1", "ml")
-    
-    test.c_volume()
-    
-    test.infuse_pump()
-    
-    print("Main set complete.")
+    def syringe_volume(self):
+        self.i_volume()
+        tmp = self.serial_pump.read(1000)
+        print(tmp)
+       # tmp.decode()
 
-if __name__ == '__main__':
-    main()
-'''
+        #note that temp will appear in binary need to decode\
+        x = ''
+        tmp.decode('ascii')
+        tmp = str(tmp)
+
+        #code to extract numbers and units from pumps
+        for char in tmp:
+            if char.isdigit():
+                x = x + char
+            if char is ".":
+                x = x + char
+
+        #if re.search("ml", tmp):
+            #syr_vol_real = syr_vol_real
+            #continue
+
+        if re.search("ul", tmp):
+            x = float(x) / 1000
+            #syr_vol_real = syr_vol_real + "ul"
+
+        if re.search("nl", tmp):
+            x = float(x) / 1000000
+            #syr_vol_real = syr_vol_real + "nl"
+
+            self.syr_vol_real = x

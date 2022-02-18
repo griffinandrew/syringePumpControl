@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import *
 
 from Jacob_Backend import Backend
-from Jacob_Pump import Pump
 
 main = tk.Tk()
 
@@ -13,12 +12,6 @@ global ol_val1, ol_val2, ol_val3
 val1 = 0
 val2 = 0
 val3 = 0
-
-status = False #not sure about proper intializtion
-
-#Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
-#Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
-#Pump3 = Pump("COM5","11 PICO PLUS ELITE 3.0.7")
 
 
 class GUI:
@@ -36,7 +29,7 @@ class GUI:
         val3 = self.c3.get()
 
         #check if cural and old_val are different if they r actuate that pump
-        self.syringe_and_infused_vol_check()
+        #self.backend.syringe_volume_check()
         self.check_different()
 
         main.after(500, self.update_after) #this function is in here because I need access to main(that why its not in backend)
@@ -44,17 +37,16 @@ class GUI:
 
     def check_different(self): # this is really the driver of the program if the values are different bc its being slid it will run that task for the apprppritate task
         if val1 != ol_val1:
+            self.backend.syringe_volume_check_P1()
             self.backend.pump_1_thread_task()
         if val2 != ol_val2:
+            self.backend.syringe_volume_check_P2()
             self.backend.pump_2_thread_task()
         if val3 != ol_val3:
+            self.backend.syringe_volume_check_P3()
             self.backend.pump_3_thread_task()
         #print(val1, val2, val3)
 
-
-    def syringe_and_infused_vol_check(self):
-        self.backend.volume_check()
-        #main.after(500, self.syringe_and_infused_vol_check)
 
     def __init__(self):
         # Import the Backend code to communicate with the pumps
