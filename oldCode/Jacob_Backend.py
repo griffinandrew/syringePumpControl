@@ -34,6 +34,8 @@ class Backend:
         self.oldVal3 = 0
         self.curVal3 = 0
 
+        self.deltVal3 = 0
+
     def pump_1_thread_task(self):
         self.oldVal1 = self.curVal1
 
@@ -100,18 +102,30 @@ class Backend:
             Pump2.stop_pump()
 
     def pump_3_thread_task(self):
-        self.oldVal3 = self.curVal3
+
+
+        x = Pump3.syr_vol_real
+
+        print('this is x')
+        print(x)
+
+
+
+        #self.oldVal3 = float(x)
+
+        self.oldVal3 = self.deltVal3 - float(Pump3.syr_vol_real)
 
         self.curVal3 = self.gui.c3.get()
 
         self.deltVal3 = self.curVal3 - self.oldVal3  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
 
-        self.curVol3 = 0.01 * self.curVal3 * float(self.gui.maxvol_entry.get()) #curVol determines the target volume as a percentage of max vol
+        #self.curVol3 = 0.01 * self.curVal3 * float(self.gui.maxvol_entry.get()) #curVol determines the target volume as a percentage of max vol
 
         self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get())
 
         global vol3
-        vol3 = str(self.curVol3)
+        vol3 = str(self.deltVol3)
+        print(vol3)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -138,7 +152,7 @@ class Backend:
 
 
         #if self.curVol3 != 0:               # you actually do need the data or some change
-        Pump3.target_volume(str(abs(self.curVol3)), "ml") # target vol based off of curVol
+        Pump3.target_volume(str(abs(self.deltVol3)), "ml") # target vol based off of curVol
         #else:
             #withdraw volume will be dependent on the total amount infused no target parameter
 

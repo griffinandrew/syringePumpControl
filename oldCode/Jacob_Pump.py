@@ -124,8 +124,6 @@ class Pump:
     def syringe_volume(self):
         self.i_volume()
         tmp = self.serial_pump.read(1000)
-        print(tmp)
-       # tmp.decode()
 
         #note that temp will appear in binary need to decode\
         x = ''
@@ -139,10 +137,6 @@ class Pump:
             if char is ".":
                 x = x + char
 
-        #if re.search("ml", tmp):
-            #syr_vol_real = syr_vol_real
-            #continue
-
         if re.search("ul", tmp):
             x = float(x) / 1000
             #syr_vol_real = syr_vol_real + "ul"
@@ -151,4 +145,4 @@ class Pump:
             x = float(x) / 1000000
             #syr_vol_real = syr_vol_real + "nl"
 
-            self.syr_vol_real = x
+        self.syr_vol_real = x
