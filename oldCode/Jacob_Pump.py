@@ -122,12 +122,12 @@ class Pump:
         self.serial_pump.write(self.itime_statement.encode())
 
     def syringe_volume(self):
-        self.i_volume()
-        tmp = self.serial_pump.read(1000)
+        self.i_volume() #not sure if 100 is too small requires testing
+        tmp = self.serial_pump.read(100) # if i play with the number of chars read this should improve performance
 
         #note that temp will appear in binary need to decode\
         x = ''
-        tmp.decode('ascii')
+        #tmp.decode('ascii')
         tmp = str(tmp)
 
         #code to extract numbers and units from pumps
@@ -138,11 +138,9 @@ class Pump:
                 x = x + char
 
         if re.search("ul", tmp):
-            x = float(x) / 1000
-            #syr_vol_real = syr_vol_real + "ul"
+            x = float(x) / 1000 #convert ul to ml
 
         elif re.search("nl", tmp):
-            x = float(x) / 1000000
-            #syr_vol_real = syr_vol_real + "nl"
+            x = float(x) / 1000000 # convert nl to ml
 
         self.syr_vol_real = x
