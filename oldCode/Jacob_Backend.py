@@ -37,16 +37,16 @@ class Backend:
         self.deltVal3 = 0
 
     def pump_1_thread_task(self):
-        self.oldVal1 = self.curVal1
+        self.oldVal1 = self.curVal1 - float(Pump1.syr_vol_real)
 
         self.curVal1 = self.gui.c1.get()
 
         self.deltVal1 = self.curVal1 - self.oldVal1 #deltVol is used to determine if we are withdrawing or infusing
 
-        self.curVol1 = 0.01 * self.curVal1 * float(self.gui.maxvol_entry.get()) #curVol determines the target volume as a percentage of max vol
+        self.deltVol1 = 0.01 * self.deltVal1 * float(self.gui.maxvol_entry.get()) #curVol determines the target volume as a percentage of max vol
 
         global vol1
-        vol1 = str(self.curVol1)
+        #vol1 = str(self.curVol1)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -60,7 +60,7 @@ class Backend:
         Pump1.syringe_diam(str(self.diam))
         Pump1.infuse_rate(str(self.rate), "ml/min")
         Pump1.withdraw_rate(str(self.rate), "ml/min")
-        Pump1.target_volume(str(abs(self.curVol1)), "ml") # target vol based off of curVol
+        Pump1.target_volume(str(abs(self.deltVol1)), "ml") # target vol based off of curVol
 
         if self.deltVal1 < 0: #deltVal is just being used to see if withdraw or infuse
             Pump1.withdraw_pump()
@@ -70,15 +70,15 @@ class Backend:
             Pump1.stop_pump()
 
     def pump_2_thread_task(self):
-        self.oldVal2 = self.curVal2
+        self.oldVal2 = self.curVal2 - float(Pump2.syr_vol_real)
 
         self.curVal2 = self.gui.c2.get()
 
         self.deltVal2 = self.curVal2 - self.oldVal2 #deltVol is used to determine if we are withdrawing or infusing
 
-        self.curVol2 = 0.01 * self.curVal2 * float(self.gui.maxvol_entry.get()) #curVol determines the target volume as a percentage of max vol
+        self.deltVol2 = 0.01 * self.deltVal2 * float(self.gui.maxvol_entry.get()) #curVol determines the target volume as a percentage of max vol
         global vol2
-        vol2 = str(self.curVol2)
+        #vol2 = str(self.curVol2)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -92,7 +92,7 @@ class Backend:
         Pump2.syringe_diam(str(self.diam))
         Pump2.infuse_rate(str(self.rate), "ml/min")
         Pump2.withdraw_rate(str(self.rate), "ml/min")
-        Pump2.target_volume(str(abs(self.curVol2)), "ml") # target vol based off of curVol
+        Pump2.target_volume(str(abs(self.deltVol2)), "ml") # target vol based off of curVol
 
         if self.deltVal2 < 0: #deltVal is just being used to see if withdraw or infuse
             Pump2.withdraw_pump()
@@ -103,19 +103,17 @@ class Backend:
 
     def pump_3_thread_task(self):
 
-
-        x = Pump3.syr_vol_real
-
-        print('this is x')
-        print(x)
-
-
-
         #self.oldVal3 = float(x)
 
-        self.oldVal3 = self.deltVal3 - float(Pump3.syr_vol_real)
+        self.oldVal3 = self.curVal3 - float(Pump3.syr_vol_real)
+
+        #print('oldval')
+        #print(self.oldVal3)
 
         self.curVal3 = self.gui.c3.get()
+
+        #print('curval')
+       # print(self.curVal3)
 
         self.deltVal3 = self.curVal3 - self.oldVal3  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
 

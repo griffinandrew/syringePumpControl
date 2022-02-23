@@ -141,7 +141,7 @@ class Pump:
             x = float(x) / 1000
             #syr_vol_real = syr_vol_real + "ul"
 
-        if re.search("nl", tmp):
+        elif re.search("nl", tmp):
             x = float(x) / 1000000
             #syr_vol_real = syr_vol_real + "nl"
 
