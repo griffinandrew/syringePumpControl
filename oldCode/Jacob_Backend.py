@@ -110,22 +110,13 @@ class Backend:
 
         #self.oldVal3 = float(x)
 
-        x = Pump3.syr_vol_real
-
+        x = self.start_3()
 
         self.oldVal3 = self.curVal3 - float(x)
 
-        print('oldval')
-        print(self.oldVal3)
-
         self.curVal3 = self.gui.c3.get()
 
-        print('curval')
-        print(self.curVal3)
-
         self.deltVal3 = self.curVal3 - self.oldVal3  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
-        print('deltval')
-        print(self.deltVal3)
 
         #self.curVol3 = 0.01 * self.curVal3 * float(self.gui.maxvol_entry.get()) #curVol determines the target volume as a percentage of max vol
 
@@ -205,4 +196,15 @@ class Backend:
     def syringe_volume_check_P3(self):
         Pump3.syringe_volume()
 
-    def calc_curr_vol(self):  # might also need to add in start time as an intial parameter
+    def start_1(self):
+        Pump1.set_start_time1()
+
+    def start_2(self):
+        Pump2.set_start_time2()
+
+
+    def start_3(self):
+        x = Pump3.set_start_time3()
+        return x
+
+

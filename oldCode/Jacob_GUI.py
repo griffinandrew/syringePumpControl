@@ -37,13 +37,13 @@ class GUI:
 
     def check_different(self): # this is really the driver of the program if the values are different bc its being slid it will run that task for the apprppritate task
         if val1 != ol_val1:
-            self.backend.syringe_volume_check_P1()
-            self.backend.pump_1_thread_task()
+            #self.backend.start_1()
+            self.backend.pump_1_thread_task() # what if I do start_1 embedded in pump thread task
         if val2 != ol_val2:
-            self.backend.syringe_volume_check_P2()
+            #self.backend.start_2()
             self.backend.pump_2_thread_task()
         if val3 != ol_val3:
-            self.backend.syringe_volume_check_P3()
+            #self.backend.start_3()
             self.backend.pump_3_thread_task()
         #print(val1, val2, val3)
 
