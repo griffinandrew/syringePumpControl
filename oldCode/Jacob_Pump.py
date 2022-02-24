@@ -155,17 +155,28 @@ class Pump:
 
         self.syr_vol_real = x
 
+
+#i think it was to do with how im tracking timing
     def set_start_time1(self):
         self.f_t1 = self.s_t1
+        print(self.f_t1)
         self.s_t1 = time.time() #nano seconds
-        self.total_infused_time1 = self.f_t1 - self.s_t1
+        print(self.s_t1)
+        self.total_infused_time1 = abs(self.f_t1 - self.s_t1)
+        #print(self.total_infused_time1)
 
     def set_start_time2(self):
         self.f_t2 = self.s_t2
         self.s_t2 = time.time()
-        self.total_infused_time2 = self.f_t2 - self.s_t2
+        self.total_infused_time2 = abs(self.f_t2 - self.s_t2)
+       # print(self.total_infused_time2)
 
+#its because time keeps going resulting in a large vol
     def set_start_time3(self):
         self.f_t3 = self.s_t3
+        print(self.f_t3)
         self.s_t3 = time.time()
-        self.total_infused_time3 = self.f_t3 - self.s_t3
+        print(self.s_t3)
+        self.total_infused_time3 = abs(self.f_t3 - self.s_t3)
+        #print(self.total_infused_time3)
+

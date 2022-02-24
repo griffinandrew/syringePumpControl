@@ -47,7 +47,7 @@ class Backend:
 
         self.rate = float(self.gui.rate_entry.get())
 
-        vol_infused_in_time = self.rate * x
+        vol_infused_in_time = (self.rate * x) / 60
 
 
         self.oldVal1 = self.curVal1 - float(vol_infused_in_time)
@@ -93,7 +93,7 @@ class Backend:
 
         self.rate = float(self.gui.rate_entry.get())
 
-        vol_infused_in_time = self.rate * x
+        vol_infused_in_time = (self.rate * x) / 60
 
         #x = self.start_2()
         self.oldVal2 = self.curVal2 - float(vol_infused_in_time)
@@ -139,20 +139,29 @@ class Backend:
 
         self.rate = float(self.gui.rate_entry.get())
 
-        vol_infused_in_time = self.rate * x
+        vol_infused_in_time = (self.rate * x) / 60 # rate times time  # units r in ml/min time is in seconds so needed to correct this
 
-        self.oldVal3 = self.curVal3 - float(vol_infused_in_time)
+        print("infused vol")
+        print(vol_infused_in_time)
+
+        if Pump3.pump_infusing is True or Pump3.pump_withdrawing is True:
+            self.oldVal3 = self.curVal3 - float(vol_infused_in_time)
+        else:
+            self.oldVal3 = self.curVal3
 
         self.curVal3 = self.gui.c3.get()
 
         self.deltVal3 = self.curVal3 - self.oldVal3  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
 
+        #print('delt val')
+       # print(self.deltVal3)
+
         self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get())
 
         global vol3
-        #print('delt vol')
+        print('delt vol')
         vol3 = str(self.deltVol3)
-        #print(vol3)
+        print(vol3)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
