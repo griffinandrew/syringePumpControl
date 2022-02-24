@@ -24,6 +24,15 @@ class Pump:
         self.i_volume_statement = None
         self.s_volume_statement = None
         self.syr_vol_real = 0
+        self.s_t1 = 0 #start time
+        self.s_t2 = 0
+        self.s_t3 = 0
+        self.f_t1 = 0 #finish time
+        self.f_t2 = 0
+        self.f_t3 = 0
+        self.total_infused_time1 = 0  #total time
+        self.total_infused_time2 = 0
+        self.total_infused_time3 = 0
 
     # Define a function to ensure the pump is properly connected and turn off nvram
     def check_pump(self, name):
@@ -140,7 +149,43 @@ class Pump:
         if re.search("ul", tmp):
             x = float(x) / 1000 #convert ul to ml
 
-        elif re.search("nl", tmp):
+        if re.search("nl", tmp):
             x = float(x) / 1000000 # convert nl to ml
 
         self.syr_vol_real = x
+
+    def set_start_vol1(self):
+        self.f_t1 = self.s_t1
+        self.s_t1 = time.time()
+        self.total_infused_time1 = abs(self.f_t1 - self.s_t1)
+        print(total_infused_time1)
+
+
+    def set_start_vol2(self):
+        self.f_t2 = self.s_t2
+        self.s_t2 = time.time()
+        self.total_infused_time2 = abs(self.f_t2 - self.s_t2)
+        print(total_infused_time2)
+
+    def set_start_vol3(self):
+        self.f_t3 = self.f_t3
+        self.f_t3 = time.time()
+        self.total_infused_time3 = abs(self.f_t3 - self.s_t3)
+
+    def end_vol1(self):
+        self.f_t1 = time.time()
+
+    def end_vol1(self):
+        self.f_t2 = time.time()
+
+    def end_vol1(self):
+        self.f_t3 = time.time()
+
+    def vol1_diff(self):
+        self.total_infused_time1 = self.f_t1 - self.s_t1
+
+    def vol2_diff(self):
+        self.total_infused_time2 = self.f_t2 - self.s_t2
+
+    def vol3_diff(self):
+        self.total_infused_time3 = self.f_t2 - self.s_t2
