@@ -11,9 +11,9 @@ vol1=""
 vol2=""
 vol3=""
 
-#################
-##issue coming from when setting back down to 0 it pumps all 60 ml out, fixed other issues but 0 percent is causing problems
-################
+iteration_1 = True
+iteration_2 = True
+iteration_3 = True
 
 
 # Define a class that communicates the values from the GUI to the pumps when the GO button is pushed
@@ -37,9 +37,20 @@ class Backend:
         self.deltVal3 = 0
 
     def pump_1_thread_task(self):
-        x = self.start_1()
+        global iteration_1
+        if iteration_1 is False:
+            x = self.start_1()
+        else:
+            self.start_1()
+            x = 0
+            iteration_1 = False
 
-        self.oldVal1 = self.curVal1 - float(x)
+        self.rate = float(self.gui.rate_entry.get())
+
+        vol_infused_in_time = self.rate * x
+
+
+        self.oldVal1 = self.curVal1 - float(vol_infused_in_time)
 
         self.curVal1 = self.gui.c1.get()
 
@@ -72,8 +83,20 @@ class Backend:
             Pump1.stop_pump()
 
     def pump_2_thread_task(self):
-        x = self.start_2()
-        self.oldVal2 = self.curVal2 - float(x)
+        global iteration_2
+        if iteration_2 is False:
+            x = self.start_2()
+        else:
+            self.start_2()
+            x = 0
+            iteration_2 = False
+
+        self.rate = float(self.gui.rate_entry.get())
+
+        vol_infused_in_time = self.rate * x
+
+        #x = self.start_2()
+        self.oldVal2 = self.curVal2 - float(vol_infused_in_time)
 
         self.curVal2 = self.gui.c2.get()
 
@@ -105,20 +128,24 @@ class Backend:
             Pump2.stop_pump()
 
     def pump_3_thread_task(self):
+        global iteration_3
 
-        #self.oldVal3 = float(x)
+        if iteration_3 is False:
+            x = self.start_2()
+        else:
+            self.start_2() # kind of hacking the system
+            x = 0
+            iteration_3 = False #note that x is seconds recorded
 
-        x = self.start_3()
+        self.rate = float(self.gui.rate_entry.get())
 
-        print(x)
+        vol_infused_in_time = self.rate * x
 
-        self.oldVal3 = self.curVal3 - float(x)
+        self.oldVal3 = self.curVal3 - float(vol_infused_in_time)
 
         self.curVal3 = self.gui.c3.get()
 
         self.deltVal3 = self.curVal3 - self.oldVal3  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
-
-        #self.curVol3 = 0.01 * self.curVal3 * float(self.gui.maxvol_entry.get()) #curVol determines the target volume as a percentage of max vol
 
         self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get())
 

@@ -158,36 +158,14 @@ class Pump:
     def set_start_time1(self):
         self.f_t1 = self.s_t1
         self.s_t1 = time.time() #nano seconds
-        self.total_infused_time1 = abs(self.f_t1 - self.s_t1)
-        #print(total_infused_time1)
-
+        self.total_infused_time1 = self.f_t1 - self.s_t1
 
     def set_start_time2(self):
         self.f_t2 = self.s_t2
         self.s_t2 = time.time()
-        self.total_infused_time2 = abs(self.f_t2 - self.s_t2)
-        #print(total_infused_time2)
-
-    def set_start_time3(self):
-        #print(self.)
-        self.f_t3 = self.s_t3
-        self.s_t3 = time.time()
-        self.total_infused_time3 = abs(self.f_t3 - self.s_t3)
-
-    def end_vol1(self):
-        self.f_t1 = time.time()
-
-    def end_vol1(self):
-        self.f_t2 = time.time()
-
-    def end_vol1(self):
-        self.f_t3 = time.time()
-
-    def vol1_diff(self):
-        self.total_infused_time1 = self.f_t1 - self.s_t1
-
-    def vol2_diff(self):
         self.total_infused_time2 = self.f_t2 - self.s_t2
 
-    def vol3_diff(self):
-        self.total_infused_time3 = self.f_t2 - self.s_t2
+    def set_start_time3(self):
+        self.f_t3 = self.s_t3
+        self.s_t3 = time.time()
+        self.total_infused_time3 = self.f_t3 - self.s_t3
