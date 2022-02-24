@@ -1,6 +1,6 @@
 from Jacob_Pump import Pump
 import serial
-
+import Jacob_Pump
 
 Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
@@ -37,10 +37,8 @@ class Backend:
         self.deltVal3 = 0
 
     def pump_1_thread_task(self):
+        x = self.start_1()
 
-
-
-        x = Pump1.syr_vol_real
         self.oldVal1 = self.curVal1 - float(x)
 
         self.curVal1 = self.gui.c1.get()
@@ -74,7 +72,7 @@ class Backend:
             Pump1.stop_pump()
 
     def pump_2_thread_task(self):
-        x = Pump2.syr_vol_real
+        x = self.start_2()
         self.oldVal2 = self.curVal2 - float(x)
 
         self.curVal2 = self.gui.c2.get()
@@ -112,6 +110,8 @@ class Backend:
 
         x = self.start_3()
 
+        print(x)
+
         self.oldVal3 = self.curVal3 - float(x)
 
         self.curVal3 = self.gui.c3.get()
@@ -123,8 +123,9 @@ class Backend:
         self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get())
 
         global vol3
+        #print('delt vol')
         vol3 = str(self.deltVol3)
-        print(vol3)
+        #print(vol3)
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
@@ -139,23 +140,7 @@ class Backend:
         Pump3.infuse_rate(str(self.rate), "ml/min")
         Pump3.withdraw_rate(str(self.rate), "ml/min")
 
-        ##########
-
-        #pump infusion target is more complicated then what I initailly thought, you will need to record
-        #some delta val but not necessarily based off the target volume, just the amount pumped in at the time of the change
-        #recording or generating this value I need to fiugre out
-        #i may haeve to experiment with different methods of updating the values as the freq of checking the update is resulting in this bug
-
-
-        ########
-
-
-        #if self.curVol3 != 0:               # you actually do need the data or some change
         Pump3.target_volume(str(abs(self.deltVol3)), "ml") # target vol based off of curVol
-        #else:
-            #withdraw volume will be dependent on the total amount infused no target parameter
-
-            #Pump3.target_volume(str(abs(self.deltVol3)), "ml") #same probelm arises when from using delt
 
         if self.deltVal3 < 0: #deltVal is just being used to see if withdraw or infuse
             Pump3.withdraw_pump()
@@ -167,8 +152,6 @@ class Backend:
     #TypeError: can't pickle _tkinter.tkapp object
 
     def buttonPush(self):
-        #global button_push
-       # button_push = True #don't think this matters  in here
         self.gui.update_after()
 
 
@@ -198,13 +181,17 @@ class Backend:
 
     def start_1(self):
         Pump1.set_start_time1()
+        x = Pump1.total_infused_time1
+        return x
 
     def start_2(self):
         Pump2.set_start_time2()
-
+        x = Pump2.total_infused_time2
+        return x
 
     def start_3(self):
-        x = Pump3.set_start_time3()
+        Pump3.set_start_time3()
+        x = Pump3.total_infused_time3
         return x
 
 
