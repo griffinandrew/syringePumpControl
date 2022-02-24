@@ -149,14 +149,20 @@ class Backend:
         else:
             self.oldVal3 = self.curVal3
 
+        #######################################
+
+        #need to change something in this in order to get working properly, i think this is on the right track becuase it appears that infused vol is being tracked correctly as our absolute 0
+
+
+        ######################################
         self.curVal3 = self.gui.c3.get()
 
-        self.deltVal3 = self.curVal3 - self.oldVal3  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
+        self.deltVal3 = self.curVal3 #- float(vol_infused_in_time)  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
 
         #print('delt val')
        # print(self.deltVal3)
 
-        self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get())
+        self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get()) - float(vol_infused_in_time)
 
         global vol3
         print('delt vol')
@@ -178,9 +184,9 @@ class Backend:
 
         Pump3.target_volume(str(abs(self.deltVol3)), "ml") # target vol based off of curVol
 
-        if self.deltVal3 < 0: #deltVal is just being used to see if withdraw or infuse
+        if self.deltVol3 < 0: #deltVal is just being used to see if withdraw or infuse
             Pump3.withdraw_pump()
-        elif self.deltVal3 > 0:
+        elif self.deltVol3 > 0:
             Pump3.infuse_pump()
         else:
             Pump3.stop_pump()
