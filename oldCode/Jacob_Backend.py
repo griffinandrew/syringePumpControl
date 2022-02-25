@@ -2,6 +2,8 @@ from Jacob_Pump import Pump
 import serial
 import Jacob_Pump
 
+import time
+
 Pump1 = Pump("COM3","11 PICO PLUS ELITE 3.0.7")
 Pump2 = Pump("COM4","11 PICO PLUS ELITE 3.0.7")
 Pump3 = Pump("COM5","11 PICO PLUS ELITE 3.0.7")
@@ -36,6 +38,12 @@ class Backend:
 
         self.deltVal3 = 0
 
+        self.oldVol1 = 0
+        self.oldVol2 = 0
+        self.oldVol3 = 0
+
+        self.curVol3 = 0
+
     def pump_1_thread_task(self):
         global iteration_1
         if iteration_1 is False:
@@ -48,7 +56,6 @@ class Backend:
         self.rate = float(self.gui.rate_entry.get())
 
         vol_infused_in_time = (self.rate * x) / 60
-
 
         self.oldVal1 = self.curVal1 - float(vol_infused_in_time)
 
@@ -84,8 +91,9 @@ class Backend:
 
     def pump_2_thread_task(self):
         global iteration_2
-        if iteration_2 is False:
+        if iteration_2 is False: # if it is not the first iteration
             x = self.start_2()
+
         else:
             self.start_2()
             x = 0
@@ -130,39 +138,43 @@ class Backend:
     def pump_3_thread_task(self):
         global iteration_3
 
-        if iteration_3 is False:
-            x = self.start_2()
+        if iteration_3 is False: #maybe if i just do a get time at any of these instances???
+            #x = self.start_3()
+            Pump3.f_t3 = time.time()
+            y = self.vol_diff_3() # this will be based off of previous target volume
+            print("y")
+            print(y)
+
+            Pump3.s_t3 = time.time()
+
         else:
-            self.start_2() # kind of hacking the system
-            x = 0
+            #self.start_3() # kind of hacking the system
+            y = 0
             iteration_3 = False #note that x is seconds recorded
+            Pump3.s_t3 = time.time()
 
         self.rate = float(self.gui.rate_entry.get())
 
-        vol_infused_in_time = (self.rate * x) / 60 # rate times time  # units r in ml/min time is in seconds so needed to correct this
-
-        print("infused vol")
-        print(vol_infused_in_time)
+        vol_infused_in_time = (self.rate * y) / 60 # rate times time # units r in ml/min time is in seconds so needed to correct this
 
         if Pump3.pump_infusing is True or Pump3.pump_withdrawing is True:
-            self.oldVal3 = self.curVal3 - float(vol_infused_in_time)
+            self.oldVol3 = vol_infused_in_time
+
+            # i want to do this in terms of volumes so like
         else:
-            self.oldVal3 = self.curVal3
+            self.oldVol3 = self.curVol3
 
-        #######################################
-
-        #need to change something in this in order to get working properly, i think this is on the right track becuase it appears that infused vol is being tracked correctly as our absolute 0
-
-
-        ######################################
         self.curVal3 = self.gui.c3.get()
 
-        self.deltVal3 = self.curVal3 #- float(vol_infused_in_time)  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
+        self.curVol3 = self.curVal3 * 0.01 * float(self.gui.maxvol_entry.get())
+
+        self.deltVol3 = self.curVol3 - self.oldVol3 #- float(vol_infused_in_time)  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
 
         #print('delt val')
        # print(self.deltVal3)
 
-        self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get()) - float(vol_infused_in_time)
+        #self.deltVol3 = 0.01 * self.deltVal3 * float(self.gui.maxvol_entry.get()) #- float(vol_infused_in_time)
+
 
         global vol3
         print('delt vol')
@@ -195,7 +207,6 @@ class Backend:
 
     def buttonPush(self):
         self.gui.update_after()
-
 
     #checks all pumps when check pump button pressed
     def check_button(self):
@@ -236,4 +247,17 @@ class Backend:
         x = Pump3.total_infused_time3
         return x
 
+    def vol_diff_1(self):
+        Pump1.vol1_diff()
+        x  = Pump1.total_infused_time1
+        return x
 
+    def vol_diff_2(self):
+        Pump2.vol2_diff()
+        x = Pump2.total_infused_time2
+        return x
+
+    def vol_diff_3(self):
+        Pump3.vol3_diff()
+        x = Pump3.total_infused_time3
+        return x

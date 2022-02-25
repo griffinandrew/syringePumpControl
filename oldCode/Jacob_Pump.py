@@ -25,7 +25,7 @@ class Pump:
         self.i_volume_statement = None
         self.s_volume_statement = None
         self.syr_vol_real = 0
-        self.s_t1 = 0  # start time
+        self.s_t1 = 0 #time.time() # start time
         self.s_t2 = 0
         self.s_t3 = 0
         self.f_t1 = 0  # finish time
@@ -158,23 +158,32 @@ class Pump:
 #i think it was to do with how im tracking timing
     def set_start_time1(self):
         self.f_t1 = self.s_t1
-        print(self.f_t1)
+       # print(self.f_t1)
         self.s_t1 = time.time() #nano seconds
-        print(self.s_t1)
-        self.total_infused_time1 = abs(self.f_t1 - self.s_t1)
+        #print(self.s_t1)
+       # self.total_infused_time1 = abs(self.f_t1 - self.s_t1)
         #print(self.total_infused_time1)
 
     def set_start_time2(self):
         self.f_t2 = self.s_t2
         self.s_t2 = time.time()
-        self.total_infused_time2 = abs(self.f_t2 - self.s_t2)
+        #self.total_infused_time2 = abs(self.f_t2 - self.s_t2)
        # print(self.total_infused_time2)
 
     def set_start_time3(self):
-        self.f_t3 = self.s_t3
-        print(self.f_t3)
+        #self.f_t3 = self.s_t3 # this finish time is def incorrect
+       # print(self.f_t3)
         self.s_t3 = time.time()
-        print(self.s_t3)
-        self.total_infused_time3 = abs(self.f_t3 - self.s_t3)
+      #  print(self.s_t3)
+        #self.total_infused_time3 = abs(self.f_t3 - self.s_t3)
         #print(self.total_infused_time3)
 
+
+    def vol1_diff(self):
+        self.total_infused_time1 = self.f_t1 - self.s_t1
+
+    def vol2_diff(self):
+        self.total_infused_time2 = self.f_t2 - self.s_t2
+
+    def vol3_diff(self):
+        self.total_infused_time3 = self.f_t3 - self.s_t3
