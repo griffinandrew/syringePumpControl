@@ -94,7 +94,6 @@ class Backend:
         global iteration_2
         if iteration_2 is False: # if it is not the first iteration
             x = self.start_2()
-
         else:
             self.start_2()
             x = 0
@@ -104,7 +103,6 @@ class Backend:
 
         vol_infused_in_time = (self.rate * x) / 60
 
-        #x = self.start_2()
         self.oldVal2 = self.curVal2 - float(vol_infused_in_time)
 
         self.curVal2 = self.gui.c2.get()
@@ -139,7 +137,9 @@ class Backend:
     def pump_3_thread_task(self):
         global iteration_3
 
-        if iteration_3 is False: #maybe if i just do a get time at any of these instances???
+        #this code was added in order to get around the first iteration of calling time and having a starting point
+        #we know the infused volume at this point is 0, so I just set the start time and record the vol_infused_in_time as 0
+        if iteration_3 is False:
             #x = self.start_3()
             Pump3.f_t3 = time.time()
             y = self.time_diff_3() # this will be based off of previous target volume
@@ -150,7 +150,7 @@ class Backend:
 
         else:
             y = 0
-            iteration_3 = False #note that x is seconds recorded
+            iteration_3 = False
             Pump3.s_t3 = time.time()
 
         self.rate = float(self.gui.rate_entry.get())
