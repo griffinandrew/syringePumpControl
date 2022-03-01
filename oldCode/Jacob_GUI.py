@@ -116,8 +116,12 @@ class GUI:
         self.c3_label = Label(main, text = "Chamber 3:" + " " + str(self.c3.get()) + "%")
         self.c3_label.grid(row = 5, column = 3)
         # ------------------#
-        
-        
+
+        #im going to add a textbox instead of the slider becuase the slider is causing some issues because of the update freq
+
+        #self.c3_text = Button(main, height = 1, width = 5, text = "enter desired % of volume", command = lambda: self.c3_text.set(self.c3_text.get()))
+       # self.c3_text.grid(row = 5, column = 3)
+
         # Go button controls
         self.go_button = Button(main, text = "Play", command = lambda: self.backend.buttonPush())
         self.go_button.grid(row = 6, column = 2)

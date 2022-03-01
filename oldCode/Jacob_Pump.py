@@ -84,24 +84,24 @@ class Pump:
 
     # Define a function that tells the pump to infuse
     def infuse_pump(self):
-        #if not self.pump_infusing:
-        self.serial_pump.write(b'irun\r')
-        self.pump_infusing = True
-        self.pump_withdrawing = False
+        if not self.pump_infusing: #NOTE THAT I JUST UNCOMMENTED THESE
+            self.serial_pump.write(b'irun\r')
+            self.pump_infusing = True
+            self.pump_withdrawing = False
 
     # Define a function that tells the pump to withdraw
     def withdraw_pump(self):
-        #if not self.pump_withdrawing:
+        #if not self.pump_withdrawing: #NOTE THAT I JUST UNCOMMENTED THESE
         self.serial_pump.write(b'wrun\r')
         self.pump_infusing = False
         self.pump_withdrawing = True
 
     # Define a function that tells the pump to stop
     def stop_pump(self):
-        if self.pump_infusing or self.pump_withdrawing:
-            self.serial_pump.write(b'stop\r')
-            self.pump_infusing = False
-            self.pump_withdrawing = False
+        #if self.pump_infusing or self.pump_withdrawing:
+        self.serial_pump.write(b'stop\r')
+        self.pump_infusing = False
+        self.pump_withdrawing = False
 
     # Define a function that clears the infused volume value
     def ci_volume(self):

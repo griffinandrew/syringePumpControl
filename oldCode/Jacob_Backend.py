@@ -37,6 +37,8 @@ class Backend:
         self.curVal3 = 0
 
         self.deltVal3 = 0
+        self.deltVol3 = 0
+
 
         #doing this because everything needs to be in terms of volume
         self.oldVol1 = 0
@@ -143,9 +145,9 @@ class Backend:
             #x = self.start_3()
             Pump3.f_t3 = time.time()
             y = self.time_diff_3() # this will be based off of previous target volume
+
             print("y")
             print(y)
-
             Pump3.s_t3 = time.time()
 
         else:
@@ -157,14 +159,31 @@ class Backend:
 
         vol_infused_in_time = (self.rate * y) / 60 # rate times time # units r in ml/min time is in seconds so needed to correct this
 
-        if Pump3.pump_infusing is True or Pump3.pump_withdrawing is True:
+        print("volume in time")
+        print(vol_infused_in_time)
+
+        #this logic is meant to take the place of checking if pump infusing/withdrawing is true or not
+        if self.deltVol3 == self.curVol3:
+            print("check conditional")
+            print(self.deltVol3)
+            print(self.curVol3)
+            Pump3.pump_withdrawing = False
+            Pump3.pump_infusing = False
+
+
+        if Pump3.pump_infusing is True or Pump3.pump_withdrawing is True:  # this will not actually show if it is currently in either of those states
             self.oldVol3 = vol_infused_in_time
-        else:
+        else: # the code is never entering this step even when both are false
             self.oldVol3 = self.curVol3
+        print("cur vol before")
+        print(self.curVol3)
 
         self.curVal3 = self.gui.c3.get()
 
         self.curVol3 = self.curVal3 * 0.01 * float(self.gui.maxvol_entry.get())
+
+        print("cur vol after")
+        print(self.curVol3)
 
         self.deltVol3 = self.curVol3 - self.oldVol3  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
 
@@ -196,8 +215,10 @@ class Backend:
 
         if self.deltVol3 < 0: #deltVol is just being used to see if withdraw or infuse
             Pump3.withdraw_pump()
+            #Pump3.pump_withdrawing = False # this is close but then it will never retrieve the time diff one
         elif self.deltVol3 > 0:
             Pump3.infuse_pump()
+            #Pump3.pump_infusing = False
         else:
             Pump3.stop_pump()
 
