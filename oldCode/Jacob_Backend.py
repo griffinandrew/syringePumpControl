@@ -38,6 +38,7 @@ class Backend:
 
         self.deltVal3 = 0
 
+        #doing this because everything needs to be in terms of volume
         self.oldVol1 = 0
         self.oldVol2 = 0
         self.oldVol3 = 0
@@ -141,14 +142,13 @@ class Backend:
         if iteration_3 is False: #maybe if i just do a get time at any of these instances???
             #x = self.start_3()
             Pump3.f_t3 = time.time()
-            y = self.vol_diff_3() # this will be based off of previous target volume
+            y = self.time_diff_3() # this will be based off of previous target volume
             print("y")
             print(y)
 
             Pump3.s_t3 = time.time()
 
         else:
-            #self.start_3() # kind of hacking the system
             y = 0
             iteration_3 = False #note that x is seconds recorded
             Pump3.s_t3 = time.time()
@@ -159,8 +159,6 @@ class Backend:
 
         if Pump3.pump_infusing is True or Pump3.pump_withdrawing is True:
             self.oldVol3 = vol_infused_in_time
-
-            # i want to do this in terms of volumes so like
         else:
             self.oldVol3 = self.curVol3
 
@@ -168,7 +166,7 @@ class Backend:
 
         self.curVol3 = self.curVal3 * 0.01 * float(self.gui.maxvol_entry.get())
 
-        self.deltVol3 = self.curVol3 - self.oldVol3 #- float(vol_infused_in_time)  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
+        self.deltVol3 = self.curVol3 - self.oldVol3  #deltVol is used to determine if we are withdrawing or infusing volume should be set to
 
         #print('delt val')
        # print(self.deltVal3)
@@ -196,14 +194,14 @@ class Backend:
 
         Pump3.target_volume(str(abs(self.deltVol3)), "ml") # target vol based off of curVol
 
-        if self.deltVol3 < 0: #deltVal is just being used to see if withdraw or infuse
+        if self.deltVol3 < 0: #deltVol is just being used to see if withdraw or infuse
             Pump3.withdraw_pump()
         elif self.deltVol3 > 0:
             Pump3.infuse_pump()
         else:
             Pump3.stop_pump()
 
-    #TypeError: can't pickle _tkinter.tkapp object
+    #TypeError: can't pickle _tkinter.tkapp object, error from trying to do multiprocessing
 
     def buttonPush(self):
         self.gui.update_after()
@@ -214,24 +212,18 @@ class Backend:
         Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
         Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
 
+# displays the pump volume
     def display_vol_button(self):
         global vol1, vol2, vol3
         print(vol1, vol2, vol3)
-
+#stops all pumps
     def stop_button(self):
         Pump1.stop_pump()
         Pump2.stop_pump()
         Pump3.stop_pump()
 
-    def syringe_volume_check_P1(self):
-        Pump1.syringe_volume()
-
-    def syringe_volume_check_P2(self):
-        Pump2.syringe_volume()
-
-    def syringe_volume_check_P3(self):
-        Pump3.syringe_volume()
-
+#starts are resposible for reteiving the amount of time it took for each pump tp actuate
+#NOTE ATM starts are not being used I am calling vol_diff
     def start_1(self):
         Pump1.set_start_time1()
         x = Pump1.total_infused_time1
@@ -247,17 +239,18 @@ class Backend:
         x = Pump3.total_infused_time3
         return x
 
-    def vol_diff_1(self):
-        Pump1.vol1_diff()
-        x  = Pump1.total_infused_time1
+# time_diffs retreives and returns the total infused time
+    def time_diff_1(self):
+        Pump1.time1_diff()
+        x = Pump1.total_infused_time1
         return x
 
-    def vol_diff_2(self):
-        Pump2.vol2_diff()
+    def time_diff_2(self):
+        Pump2.time2_diff()
         x = Pump2.total_infused_time2
         return x
 
-    def vol_diff_3(self):
-        Pump3.vol3_diff()
+    def time_diff_3(self):
+        Pump3.time3_diff()
         x = Pump3.total_infused_time3
         return x

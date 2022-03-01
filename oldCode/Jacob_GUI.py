@@ -6,6 +6,8 @@ from Jacob_Backend import Backend
 
 main = tk.Tk()
 
+# these global variables are needed so that I can continously check them, becuase they are not attributes of the GUI I must have
+# them be global, otherwise they would be local variables and I would be unable to compare them across iterations
 global val1, val2, val3
 global ol_val1, ol_val2, ol_val3
 
@@ -15,7 +17,8 @@ val3 = 0
 
 
 class GUI:
-
+    # this function is responsible for detecting if a change has been made on the sliders every .5 seconds and tells the pump to actuate
+    #if the volumes have been changed, else nothing
     def update_after(self):
         global val1, val2, val3
         global ol_val1, ol_val2, ol_val3
@@ -29,21 +32,20 @@ class GUI:
         val3 = self.c3.get()
 
         #check if cural and old_val are different if they r actuate that pump
-        #self.backend.syringe_volume_check()
         self.check_different()
 
         main.after(500, self.update_after) #this function is in here because I need access to main(that why its not in backend)
         #every .5 sec it recursively calls itself and checks the values if they r diff pumps get moved
 
-    def check_different(self): # this is really the driver of the program if the values are different bc its being slid it will run that task for the apprppritate task
+    # check if curval and old_val are different if they r, actuate that pump
+    # this is really the driver of the program,
+    # if the slider values are different it will run that task for the apprppritate task
+    def check_different(self):
         if val1 != ol_val1:
-            #self.backend.start_1()
-            self.backend.pump_1_thread_task() # what if I do start_1 embedded in pump thread task
+            self.backend.pump_1_thread_task()
         if val2 != ol_val2:
-            #self.backend.start_2()
             self.backend.pump_2_thread_task()
         if val3 != ol_val3:
-            #self.backend.start_3()
             self.backend.pump_3_thread_task()
         #print(val1, val2, val3)
 

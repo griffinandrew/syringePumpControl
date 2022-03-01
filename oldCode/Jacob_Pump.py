@@ -25,7 +25,7 @@ class Pump:
         self.i_volume_statement = None
         self.s_volume_statement = None
         self.syr_vol_real = 0
-        self.s_t1 = 0 #time.time() # start time
+        self.s_t1 = 0 # start time
         self.s_t2 = 0
         self.s_t3 = 0
         self.f_t1 = 0  # finish time
@@ -118,26 +118,16 @@ class Pump:
         self.cvolume_statement = "cvolume\r"
         self.serial_pump.write(self.cvolume_statement.encode())
 
-    #function that sets or displays the syringe volume, its will always just be whatever u set it to at start up
-    def s_volume(self):
-        self.s_volume_statement = "svolume\r"
-        self.serial_pump.write(self.s_volume_statement.encode())
-
+    #function that sets or displays the infused volume at a given time
     def i_volume(self):
         self.i_volume_statement = "ivolume\r"
         self.serial_pump.write(self.i_volume_statement.encode())
 
-    def itime(self):
-        self.itime_statement = "itime\r"
-        self.serial_pump.write(self.itime_statement.encode())
-
+    #gets and interpets the pumped in volume
     def syringe_volume(self):
-        self.i_volume() #not sure if 100 is too small requires testing
-        tmp = self.serial_pump.read(100) # if i play with the number of chars read this should improve performance
-
-        #note that temp will appear in binary need to decode\
-        x = ''
-        #tmp.decode('ascii')
+        self.i_volume() #ask the pump how much volume has been infused in a given time
+        tmp = self.serial_pump.read(100)
+        x = '' # empty string to add units to
         tmp = str(tmp)
 
         #code to extract numbers and units from pumps
@@ -157,33 +147,21 @@ class Pump:
 
 #i think it was to do with how im tracking timing
     def set_start_time1(self):
-        self.f_t1 = self.s_t1
-       # print(self.f_t1)
-        self.s_t1 = time.time() #nano seconds
-        #print(self.s_t1)
-       # self.total_infused_time1 = abs(self.f_t1 - self.s_t1)
-        #print(self.total_infused_time1)
+        self.s_t = time.time() # time in seconds
 
     def set_start_time2(self):
         self.f_t2 = self.s_t2
         self.s_t2 = time.time()
-        #self.total_infused_time2 = abs(self.f_t2 - self.s_t2)
-       # print(self.total_infused_time2)
 
     def set_start_time3(self):
-        #self.f_t3 = self.s_t3 # this finish time is def incorrect
-       # print(self.f_t3)
         self.s_t3 = time.time()
-      #  print(self.s_t3)
-        #self.total_infused_time3 = abs(self.f_t3 - self.s_t3)
-        #print(self.total_infused_time3)
 
-
-    def vol1_diff(self):
+# calcualtes the amount of time between intervals
+    def time1_diff(self):
         self.total_infused_time1 = self.f_t1 - self.s_t1
 
-    def vol2_diff(self):
+    def time2_diff(self):
         self.total_infused_time2 = self.f_t2 - self.s_t2
 
-    def vol3_diff(self):
+    def time3_diff(self):
         self.total_infused_time3 = self.f_t3 - self.s_t3
