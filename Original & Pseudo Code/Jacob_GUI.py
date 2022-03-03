@@ -9,6 +9,16 @@ main = tk.Tk()
 
 class GUI:
 
+#confused if i need this or not
+    #def update(self):
+
+
+        #when play button it will first go here
+        # i think this will have to be the a call to the while loop that jacob added
+
+        #main.after(500, self.update) #every .5 sec it recursively calls itself
+
+
     def __init__(self):
 
         # Import the Backend code to communicate with the pumps
@@ -139,6 +149,11 @@ class GUI:
 
         self.numPump_menu = OptionMenu(main, self.varPump, "0", "1", "2", "3")
         self.numPump_menu.grid(row = 2, column = 8)
+
+        #Check Button Controls
+
+        self.check_button = Button(main, text="Check Pumps", command=lambda: self.backend.check_button())
+        self.check_button.grid(row=6, column=4)
 
         # ------------------#
 

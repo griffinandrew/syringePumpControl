@@ -49,7 +49,7 @@ while isPlay:
 		com_prev = com_cur
 		pos_prev = pos_cur
 
-	if com_cur - pos_cur <= pump_step:
+	if com_cur - pos_cur <= pump_step: # shouldn't this be at the beginning?
 		isInflating = False
 
 	else:

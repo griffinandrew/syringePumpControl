@@ -126,7 +126,6 @@ class GUI:
         self.go_button = Button(main, text = "Play", command = lambda: self.backend.buttonPush())
         self.go_button.grid(row = 6, column = 2)
 
-
         # Syringe settings text boxes
         # ------------------#
         self.diam_label = Label(main, text = "Syringe Diameter:    ")
@@ -175,8 +174,6 @@ class GUI:
 
         self.check_button = Button(main, text="Check Pumps", command=lambda: self.backend.check_button())
         self.check_button.grid(row=6, column=4)
-
-        # Check Button Controls#
 
         self.display_vol_button = Button(main, text="Display Volume", command=lambda: self.backend.display_vol_button())
         self.display_vol_button.grid(row=6, column=6)
