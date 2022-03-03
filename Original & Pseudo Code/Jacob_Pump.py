@@ -98,25 +98,3 @@ class Pump:
     def c_volume(self):
         self.cvolume_statement = "cvolume\r"
         self.serial_pump.write(self.cvolume_statement.encode())
-
-
-# Thread for testing
-def main():
-    test = Pump("COM4", "11 ELITE I/W Single 3.0.6")
-    
-    test.check_pump("11 ELITE I/W Single 3.0.6")
-    
-    test.syringe_vol("50")
-    test.syringe_diam("28.5")
-    test.infuse_rate("20", "ml/min")
-    test.withdraw_rate("20", "ml/min")
-    test.target_volume("1", "ml")
-    
-    test.c_volume()
-    
-    test.infuse_pump()
-    
-    print("Main set complete.")
-
-if __name__ == '__main__':
-    main()

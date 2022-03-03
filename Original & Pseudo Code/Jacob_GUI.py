@@ -10,13 +10,14 @@ main = tk.Tk()
 class GUI:
 
 #confused if i need this or not
-    #def update(self):
+    def update(self):
 
+        self.backend.actuate()
 
+        #self.actuate()
         #when play button it will first go here
         # i think this will have to be the a call to the while loop that jacob added
-
-        #main.after(500, self.update) #every .5 sec it recursively calls itself
+        main.after(500, self.update) #every .5 sec it recursively calls itself
 
 
     def __init__(self):
@@ -140,16 +141,6 @@ class GUI:
         self.maxvolunit = Label(main, text = "[mL]")
         self.maxvolunit.grid(row = 2, column = 7)
 
-        #---#
-
-        self.varPump = tk.StringVar()
-        
-        self.numPump_label = Label(main, text = "# of Pumps:    ")
-        self.numPump_label.grid(row = 1, column = 8)
-
-        self.numPump_menu = OptionMenu(main, self.varPump, "0", "1", "2", "3")
-        self.numPump_menu.grid(row = 2, column = 8)
-
         #Check Button Controls
 
         self.check_button = Button(main, text="Check Pumps", command=lambda: self.backend.check_button())
@@ -160,14 +151,6 @@ class GUI:
         
 
 # Run the GUI
-GUI()
-
-
-
-
-
-
-
-
-
-
+if __name__ == "__main__":
+    GUI()
+    main.mainloop()
