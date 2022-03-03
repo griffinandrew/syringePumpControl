@@ -1,1 +1,0 @@
-Original and pseudo code
