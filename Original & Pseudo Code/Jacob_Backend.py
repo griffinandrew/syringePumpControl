@@ -32,7 +32,7 @@ class Backend:
         self.diam = 0
         self.numPump = 0
 
-        self.t_step = .5 # this is in seconds it might have to be changed not totally sure how it needs to be represented
+        self.t_step = .1 # this is in seconds it might have to be changed not totally sure how it needs to be represented
         self.pump_step = 0   # I am getting the proper value in the the set attributes section #self.rate * self.t_step * (1 / 60) # this is wrong here I think, it will be init to 0 because rate is 0
 
         self.isInflating1 = False
@@ -309,6 +309,7 @@ class Backend:
         elif self.setVol2 > 0:
             Pump2.infuse_pump()
         else:
+            print('pump has stopped')
             Pump2.stop_pump()
 
         self.com_prev2 = self.com_cur2
@@ -318,7 +319,6 @@ class Backend:
        #also still confused exactly why this logic works
         if self.setVol2 <= self.pump_step:
             self.isInflating2 = False
-
         else:
             self.isInflating2 = True
 

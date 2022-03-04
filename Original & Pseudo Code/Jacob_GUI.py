@@ -15,7 +15,7 @@ class GUI:
         self.backend.actuate2()
         self.backend.actuate3()
 
-        main.after(500, self.update) #every .5 sec it recursively calls itself
+        main.after(100, self.update) #every .5 sec it recursively calls itself
 
     def __init__(self):
 
