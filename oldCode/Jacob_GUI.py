@@ -15,7 +15,6 @@ val1 = 0
 val2 = 0
 val3 = 0
 
-
 class GUI:
     # this function is responsible for detecting if a change has been made on the sliders every .5 seconds and tells the pump to actuate
     #if the volumes have been changed, else nothing

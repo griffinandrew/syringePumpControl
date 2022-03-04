@@ -55,9 +55,6 @@ class Backend:
         self.pos_prev2 = 0
         self.pos_prev3 = 0
 
-        self.val_to_set1 = 0
-        self.val_to_set2 = 0
-        self.val_to_set3 = 0
 
         self.setVol1 = 0
         self.setVol2 = 0
@@ -80,9 +77,9 @@ class Backend:
             if not self.isInflating1:
                 self.pos_cur1 = self.com_prev1
 
-                self.val_to_set1 = self.com_cur1 - self.pos_cur1
+                val_to_set1 = self.com_cur1 - self.pos_cur1
 
-                self.setVol1 = 0.01 * self.val_to_set1 * float(self.gui.maxvol_entry.get())
+                self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
 
                 Pump1.target_volume(str(abs(self.setVol1)), "ml")
 
@@ -100,9 +97,9 @@ class Backend:
             else:
                 self.pos_cur1 = self.pos_prev1 + self.pump_step
 
-                self.val_to_set1 = self.com_cur1 - self.pos_cur1
+                val_to_set1 = self.com_cur1 - self.pos_cur1
 
-                self.setVol1 = 0.01 * self.val_to_set1 * float(self.gui.maxvol_entry.get())
+                self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
 
                 Pump1.target_volume(str(abs(self.setVol1)), "ml")
 
@@ -134,9 +131,9 @@ class Backend:
             if not self.isInflating2:
                 self.pos_cur2 = self.com_prev2
 
-                self.val_to_set2 = self.com_cur2 - self.pos_cur2
+                val_to_set2 = self.com_cur2 - self.pos_cur2
 
-                self.setVol2 = 0.01 * self.val_to_set2 * float(self.gui.maxvol_entry.get())
+                self.setVol2 = 0.01 * val_to_set2 * float(self.gui.maxvol_entry.get())
 
                 Pump2.target_volume(str(abs(self.setVol2)), "ml")
 
@@ -154,9 +151,9 @@ class Backend:
             else:
                 self.pos_cur2 = self.pos_prev2 + self.pump_step
 
-                self.val_to_set2 = self.com_cur2 - self.pos_cur2
+                val_to_set2 = self.com_cur2 - self.pos_cur2
 
-                self.setVol2 = 0.01 * self.val_to_set2 * float(self.gui.maxvol_entry.get())
+                self.setVol2 = 0.01 * val_to_set2 * float(self.gui.maxvol_entry.get())
 
                 Pump2.target_volume(str(abs(self.setVol2)), "ml")
 
@@ -187,9 +184,9 @@ class Backend:
             if not self.isInflating3:
                 self.pos_cur3 = self.com_prev3
 
-                self.val_to_set3 = self.com_cur3 - self.pos_cur3
+                val_to_set3 = self.com_cur3 - self.pos_cur3
 
-                self.setVol3 = 0.01 * self.val_to_set3 * float(self.gui.maxvol_entry.get())
+                self.setVol3 = 0.01 * val_to_set3 * float(self.gui.maxvol_entry.get())
 
                 Pump3.target_volume(str(abs(self.setVol3)), "ml")
 
@@ -207,9 +204,9 @@ class Backend:
             else:
                 self.pos_cur3 = self.pos_prev3 + self.pump_step
 
-                self.val_to_set3 = self.com_cur3 - self.pos_cur3
+                val_to_set3 = self.com_cur3 - self.pos_cur3
 
-                self.setVol3 = 0.01 * self.val_to_set3 * float(self.gui.maxvol_entry.get())
+                self.setVol3 = 0.01 * val_to_set3 * float(self.gui.maxvol_entry.get())
 
                 Pump3.target_volume(str(abs(self.setVol3)), "ml")
 
@@ -243,9 +240,9 @@ class Backend:
             if not self.isInflating1:
                 self.pos_cur1 = self.com_prev1
 
-                self.val_to_set1 = self.com_cur1 - self.pos_cur1
+                val_to_set1 = self.com_cur1 - self.pos_cur1
 
-                self.setVol1 = 0.01 * self.val_to_set1 * float(self.gui.maxvol_entry.get())
+                self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
 
                 Pump1.target_volume(str(abs(self.setVol1)), "ml")
 
@@ -263,9 +260,9 @@ class Backend:
             else:
                 self.pos_cur1 = self.pos_prev1 + self.pump_step
 
-                self.val_to_set1 = self.com_cur1 - self.pos_cur1
+                val_to_set1 = self.com_cur1 - self.pos_cur1
 
-                self.setVol1 = 0.01 * self.val_to_set1 * float(self.gui.maxvol_entry.get())
+                self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
 
                 Pump1.target_volume(str(abs(self.setVol1)), "ml")
 
