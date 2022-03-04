@@ -142,7 +142,6 @@ class Backend:
         #this code was added in order to get around the first iteration of calling time and having a starting point
         #we know the infused volume at this point is 0, so I just set the start time and record the vol_infused_in_time as 0
         if iteration_3 is False:
-            #x = self.start_3()
             Pump3.f_t3 = time.time()
             y = self.time_diff_3() # this will be based off of previous target volume
 
@@ -158,7 +157,6 @@ class Backend:
         self.rate = float(self.gui.rate_entry.get())
 
         vol_infused_in_time = (self.rate * y) / 60 # rate times time # units r in ml/min time is in seconds so needed to correct this
-
         print("volume in time")
         print(vol_infused_in_time)
 
