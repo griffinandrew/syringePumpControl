@@ -9,41 +9,38 @@ main = tk.Tk()
 
 class GUI:
 
-#confused if i need this or not
     def update(self):
 
-        self.backend.actuate()
+        #self.backend.actuate() # ig guess I could also break up actuate into the comps and just call them here
 
-        #self.actuate()
-        #when play button it will first go here
-        # i think this will have to be the a call to the while loop that jacob added
+        # i really doubt this will perform better but its better coding practice only thing is displaying the volume
+        self.backend.actuate1()
+        self.backend.actuate2()
+        self.backend.actuate3()
+
         main.after(500, self.update) #every .5 sec it recursively calls itself
-
 
     def __init__(self):
 
         # Import the Backend code to communicate with the pumps
         self.backend = Backend(self)
-        
 
         # Initialize sliders at 0
         self.c1 = 0
         self.c2 = 0
         self.c3 = 0
-        
 
         # Initialize syringe pump parameters at 0
         self.diam = 0
         self.vol = 0
         self.rate = 0
         self.max = 0
-        
-        
+
         # Title
         self.title = Label(main, text = "Syringe Control Panel")
         self.title.grid(row = 1, column = 2)
-        
-        
+
+
         # Chamber 1 controls
         # ------------------#
         self.up1 = Button(main, text = "\u2B99", command = lambda: self.c1.set(self.c1.get()+1))
@@ -93,6 +90,7 @@ class GUI:
         
         
         # Go button controls
+        # ------------------#
         self.go_button = Button(main, text = "Play", command = lambda: self.backend.buttonPush())
         self.go_button.grid(row = 6, column = 2)
 
@@ -142,13 +140,15 @@ class GUI:
         self.maxvolunit.grid(row = 2, column = 7)
 
         #Check Button Controls
-
+        # ------------------#
         self.check_button = Button(main, text="Check Pumps", command=lambda: self.backend.check_button())
         self.check_button.grid(row=6, column=4)
 
+        # Stop Button Controls
         # ------------------#
+        self.stop_button = Button(main, text="Stop Pumps", command=lambda: self.backend.stop_button())
+        self.stop_button.grid(row=6, column=8)
 
-        
 
 # Run the GUI
 if __name__ == "__main__":

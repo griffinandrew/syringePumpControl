@@ -33,7 +33,7 @@ class Backend:
         self.numPump = 0
 
         self.t_step = .5 # this is in seconds it might have to be changed not totally sure how it needs to be represented
-        self.pump_step = self.rate * self.t_step * (1 / 60)
+        self.pump_step = 0   # I am getting the proper value in the the set attributes section #self.rate * self.t_step * (1 / 60) # this is wrong here I think, it will be init to 0 because rate is 0
 
         self.isInflating1 = False
         self.isInflating2 = False
@@ -55,7 +55,6 @@ class Backend:
         self.pos_prev2 = 0
         self.pos_prev3 = 0
 
-
         self.setVol1 = 0
         self.setVol2 = 0
         self.setVol3 = 0
@@ -63,8 +62,8 @@ class Backend:
     def buttonPush(self):
         self.setAttributes()
         global isRunning
-        isRunning = True
-        self.gui.update()
+        isRunning = True # this isn't used
+        self.gui.update() # update makes the call to backend actuate recursively
 
 
     def actuate(self):
@@ -76,11 +75,8 @@ class Backend:
 
             if not self.isInflating1:
                 self.pos_cur1 = self.com_prev1
-
                 val_to_set1 = self.com_cur1 - self.pos_cur1
-
                 self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
-
                 Pump1.target_volume(str(abs(self.setVol1)), "ml")
 
                 if self.setVol1 < 0:
@@ -91,16 +87,12 @@ class Backend:
                     Pump1.stop_pump()
 
                 self.com_prev1 = self.com_cur1
-
                 self.pos_prev1 = self.pos_cur1
 
             else:
                 self.pos_cur1 = self.pos_prev1 + self.pump_step
-
                 val_to_set1 = self.com_cur1 - self.pos_cur1
-
                 self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
-
                 Pump1.target_volume(str(abs(self.setVol1)), "ml")
 
                 if self.setVol1 < 0:
@@ -111,30 +103,26 @@ class Backend:
                     Pump1.stop_pump()
 
                 self.com_prev1 = self.com_cur1
-
                 self.pos_prev1 = self.pos_cur1
 
             # im a little confused why this condition is at the end I get it for the first iteration but after
             # that the condition will be set on the previous run which doesnt make any sense
             if self.setVol1 <= self.pump_step:
                 self.isInflating1 = False
-
             else:
                 self.isInflating1 = True
 
-                ######end pump 1
+            print(self.isInflating1)
 
+                ######end pump 1
                 ####pump 2
 
             self.com_cur2 = self.gui.c2.get()
 
             if not self.isInflating2:
                 self.pos_cur2 = self.com_prev2
-
                 val_to_set2 = self.com_cur2 - self.pos_cur2
-
                 self.setVol2 = 0.01 * val_to_set2 * float(self.gui.maxvol_entry.get())
-
                 Pump2.target_volume(str(abs(self.setVol2)), "ml")
 
                 if self.setVol2 < 0:
@@ -145,16 +133,12 @@ class Backend:
                     Pump2.stop_pump()
 
                 self.com_prev2 = self.com_cur2
-
                 self.pos_prev2 = self.pos_cur2
 
             else:
                 self.pos_cur2 = self.pos_prev2 + self.pump_step
-
                 val_to_set2 = self.com_cur2 - self.pos_cur2
-
                 self.setVol2 = 0.01 * val_to_set2 * float(self.gui.maxvol_entry.get())
-
                 Pump2.target_volume(str(abs(self.setVol2)), "ml")
 
                 if self.setVol2 < 0:
@@ -165,17 +149,16 @@ class Backend:
                     Pump2.stop_pump()
 
                 self.com_prev2 = self.com_cur2
-
                 self.pos_prev2 = self.pos_cur2
 
                 # im a little confused why this condition is at the end I get it for the first iteration but after
                 # that the condition will be set on the previous run which doesnt make any sense
             if self.setVol2 <= self.pump_step:
                 self.isInflating2 = False
-
             else:
                 self.isInflating2 = True
 
+            print(self.isInflating2)
                 ###end pump 2
 
                 # pump3
@@ -183,11 +166,8 @@ class Backend:
 
             if not self.isInflating3:
                 self.pos_cur3 = self.com_prev3
-
                 val_to_set3 = self.com_cur3 - self.pos_cur3
-
                 self.setVol3 = 0.01 * val_to_set3 * float(self.gui.maxvol_entry.get())
-
                 Pump3.target_volume(str(abs(self.setVol3)), "ml")
 
                 if self.setVol3 < 0:
@@ -198,16 +178,12 @@ class Backend:
                     Pump3.stop_pump()
 
                 self.com_prev3 = self.com_cur3
-
                 self.pos_prev3 = self.pos_cur3
 
             else:
                 self.pos_cur3 = self.pos_prev3 + self.pump_step
-
                 val_to_set3 = self.com_cur3 - self.pos_cur3
-
                 self.setVol3 = 0.01 * val_to_set3 * float(self.gui.maxvol_entry.get())
-
                 Pump3.target_volume(str(abs(self.setVol3)), "ml")
 
                 if self.setVol3 < 0:
@@ -218,189 +194,180 @@ class Backend:
                     Pump3.stop_pump()
 
                 self.com_prev3 = self.com_cur3
-
                 self.pos_prev3 = self.pos_cur3
 
                 # im a little confused why this condition is at the end I get it for the first iteration but after
                 # that the condition will be set on the previous run which doesnt make any sense
             if self.setVol3 <= self.pump_step:
                 self.isInflating3 = False
-
             else:
                 self.isInflating3 = True
+
+            print(self.isInflating3) # my theory is that this post checking is causing issues,
 
 
     def actuate1(self):
 
-        while isRunning is True:
-            time.sleep(self.t_step)
+        #while isRunning is True:
+            #time.sleep(self.t_step)
+        print("inflating 1 at start ")
+        print(self.isInflating1)
 
-            self.com_cur1 = self.gui.c1.get()
+        self.com_cur1 = self.gui.c1.get()
 
-            if not self.isInflating1:
-                self.pos_cur1 = self.com_prev1
+        if not self.isInflating1:
+            self.pos_cur1 = self.com_prev1
+            val_to_set1 = self.com_cur1 - self.pos_cur1
+            self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
+            Pump1.target_volume(str(abs(self.setVol1)), "ml")
 
-                val_to_set1 = self.com_cur1 - self.pos_cur1
-
-                self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
-
-                Pump1.target_volume(str(abs(self.setVol1)), "ml")
-
-                if self.setVol1 < 0:
-                    Pump1.withdraw_pump()
-                elif self.setVol1 > 0:
-                    Pump1.infuse_pump()
-                else:
-                    Pump1.stop_pump()
-
-                self.com_prev1 = self.com_cur1
-
-                self.pos_prev1 = self.pos_cur1
-
+            if self.setVol1 < 0:
+                Pump1.withdraw_pump()
+            elif self.setVol1 > 0:
+                Pump1.infuse_pump()
             else:
-                self.pos_cur1 = self.pos_prev1 + self.pump_step
+                Pump1.stop_pump()
 
-                val_to_set1 = self.com_cur1 - self.pos_cur1
+            self.com_prev1 = self.com_cur1
+            self.pos_prev1 = self.pos_cur1
 
-                self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
+        else:
+            self.pos_cur1 = self.pos_prev1 + self.pump_step
+            val_to_set1 = self.com_cur1 - self.pos_cur1
+            self.setVol1 = 0.01 * val_to_set1 * float(self.gui.maxvol_entry.get())
+            Pump1.target_volume(str(abs(self.setVol1)), "ml")
 
-                Pump1.target_volume(str(abs(self.setVol1)), "ml")
+            if self.setVol1 < 0:
+                Pump1.withdraw_pump()
+            elif self.setVol1 > 0:
+                Pump1.infuse_pump()
+            else:
+                Pump1.stop_pump()
 
-                if self.setVol1 < 0:
-                    Pump1.withdraw_pump()
-                elif self.setVol1 > 0:
-                    Pump1.infuse_pump()
-                else:
-                    Pump1.stop_pump()
-
-                self.com_prev1 = self.com_cur1
-
-                self.pos_prev1 = self.pos_cur1
+            self.com_prev1 = self.com_cur1
+            self.pos_prev1 = self.pos_cur1
 
             #im a little confused why this condition is at the end I get it for the first iteration but after
             #that the condition will be set on the previous run which doesnt make any sense
-            if self.setVol1 <= self.pump_step:
-                self.isInflating1 = False
+        if self.setVol1 <= self.pump_step: # i need to think more about this conditonal
+            self.isInflating1 = False
+        else:
+            self.isInflating1 = True
 
-            else:
-                self.isInflating1 = True
+        print("inflating 1 at end")
+        print(self.isInflating1)
 
     def actuate2(self):
 
-        while isRunning is True:
-            time.sleep(self.t_step)
+        #while isRunning is True:
+            #time.sleep(self.t_step)
+        print("inflating 2 at start ")
+        print(self.isInflating2)
 
-            self.com_cur2 = self.gui.c2.get()
+        self.com_cur2 = self.gui.c2.get()
 
-            if not self.isInflating2:
-                self.pos_cur2 = self.com_prev2
+        if not self.isInflating2:
+            self.pos_cur2 = self.com_prev2
+            val_to_set2 = self.com_cur2 - self.pos_cur2
+            self.setVol2 = 0.01 * val_to_set2 * float(self.gui.maxvol_entry.get())
+            Pump2.target_volume(str(abs(self.setVol2)), "ml")
 
-                self.val_to_set2 = self.com_cur2 - self.pos_cur2
-
-                self.setVol2 = 0.01 * self.val_to_set2 * float(self.gui.maxvol_entry.get())
-
-                Pump2.target_volume(str(abs(self.setVol2)), "ml")
-
-                if self.setVol2 < 0:
-                    Pump2.withdraw_pump()
-                elif self.setVol2 > 0:
-                    Pump2.infuse_pump()
-                else:
-                    Pump2.stop_pump()
-
-                self.com_prev2 = self.com_cur2
-
-                self.pos_prev2 = self.pos_cur2
-
+            if self.setVol2 < 0:
+                Pump2.withdraw_pump()
+            elif self.setVol2 > 0:
+                Pump2.infuse_pump()
             else:
-                self.pos_cur2 = self.pos_prev2 + self.pump_step
+                Pump2.stop_pump()
 
-                self.val_to_set2 = self.com_cur2 - self.pos_cur2
+            self.com_prev2 = self.com_cur2
+            self.pos_prev2 = self.pos_cur2
 
-                self.setVol2 = 0.01 * self.val_to_set2 * float(self.gui.maxvol_entry.get())
+        else:
+            self.pos_cur2 = self.pos_prev2 + self.pump_step
+            val_to_set2 = self.com_cur2 - self.pos_cur2
+            self.setVol2 = 0.01 * val_to_set2 * float(self.gui.maxvol_entry.get())
+            Pump2.target_volume(str(abs(self.setVol2)), "ml")
 
-                Pump2.target_volume(str(abs(self.setVol2)), "ml")
+            if self.setVol2 < 0:
+                Pump2.withdraw_pump()
+            elif self.setVol2 > 0:
+                Pump2.infuse_pump()
+            else:
+                Pump2.stop_pump()
 
-                if self.setVol2 < 0:
-                    Pump2.withdraw_pump()
-                elif self.setVol2 > 0:
-                    Pump2.infuse_pump()
-                else:
-                    Pump2.stop_pump()
-
-                self.com_prev2 = self.com_cur2
-
-                self.pos_prev2 = self.pos_cur2
+            self.com_prev2 = self.com_cur2
+            self.pos_prev2 = self.pos_cur2
 
             # im a little confused why this condition is at the end I get it for the first iteration but after
             # that the condition will be set on the previous run which doesnt make any sense
-            if self.setVol2 <= self.pump_step:
-                self.isInflating2 = False
+        if self.setVol2 <= self.pump_step:
+            self.isInflating2 = False
+        else:
+            self.isInflating2 = True
 
-            else:
-                self.isInflating2 = True
+        print("inflating 2 at end ")
+        print(self.isInflating2)
 
 
     def actuate3(self):
 
-        while isRunning is True:
-            time.sleep(self.t_step)
+        #while isRunning is True:
+            #time.sleep(self.t_step)
 
-            self.com_cur3 = self.gui.c3.get()
+        print("inflating 3 at start ")
+        print(self.isInflating3)
 
-            if not self.isInflating3:
-                self.pos_cur3 = self.com_prev3
+        self.com_cur3 = self.gui.c3.get()
 
-                self.val_to_set3 = self.com_cur3 - self.pos_cur3
+        if not self.isInflating3:
+            self.pos_cur3 = self.com_prev3
+            val_to_set3 = self.com_cur3 - self.pos_cur3
+            self.setVol3 = 0.01 * val_to_set3 * float(self.gui.maxvol_entry.get())
+            Pump3.target_volume(str(abs(self.setVol3)), "ml")
 
-                self.setVol3 = 0.01 * self.val_to_set3 * float(self.gui.maxvol_entry.get())
-
-                Pump3.target_volume(str(abs(self.setVol3)), "ml")
-
-                if self.setVol3 < 0:
-                    Pump3.withdraw_pump()
-                elif self.setVol3 > 0:
-                    Pump3.infuse_pump()
-                else:
-                    Pump3.stop_pump()
-
-                self.com_prev3 = self.com_cur3
-
-                self.pos_prev3 = self.pos_cur3
-
+            if self.setVol3 < 0:
+                Pump3.withdraw_pump()
+            elif self.setVol3 > 0:
+                Pump3.infuse_pump()
             else:
-                self.pos_cur3 = self.pos_prev3 + self.pump_step
+                Pump3.stop_pump()
 
-                self.val_to_set3 = self.com_cur3 - self.pos_cur3
+            self.com_prev3 = self.com_cur3
+            self.pos_prev3 = self.pos_cur3
 
-                self.setVol3 = 0.01 * self.val_to_set3 * float(self.gui.maxvol_entry.get())
+        else:
+            self.pos_cur3 = self.pos_prev3 + self.pump_step
+            val_to_set3 = self.com_cur3 - self.pos_cur3
+            self.setVol3 = 0.01 * val_to_set3 * float(self.gui.maxvol_entry.get())
+            Pump3.target_volume(str(abs(self.setVol3)), "ml")
 
-                Pump3.target_volume(str(abs(self.setVol3)), "ml")
+            if self.setVol3 < 0:
+                Pump3.withdraw_pump()
+            elif self.setVol3 > 0:
+                Pump3.infuse_pump()
+            else:
+                Pump3.stop_pump()
 
-                if self.setVol3 < 0:
-                    Pump3.withdraw_pump()
-                elif self.setVol3 > 0:
-                    Pump3.infuse_pump()
-                else:
-                    Pump3.stop_pump()
-
-                self.com_prev3 = self.com_cur3
-
-                self.pos_prev3 = self.pos_cur3
+            self.com_prev3 = self.com_cur3
+            self.pos_prev3 = self.pos_cur3
 
             # im a little confused why this condition is at the end I get it for the first iteration but after
             # that the condition will be set on the previous run which doesnt make any sense
-            if self.setVol3 <= self.pump_step:
-                self.isInflating3 = False
+        if self.setVol3 <= self.pump_step:
+            self.isInflating3 = False
+        else:
+            self.isInflating3 = True
 
-            else:
-                self.isInflating3 = True
+
+        print("inflating 3 at end ")
+        print(self.isInflating3)
 
     def setAttributes(self):
 
         self.rate = float(self.gui.rate_entry.get())
         self.vol = float(self.gui.vol_entry.get())
         self.diam = float(self.gui.diam_entry.get())
+        self.pump_step = self.rate * self.t_step * (1 / 60)
 
         # Set the pump parameters for Pump 1
         Pump1.c_volume()
@@ -434,3 +401,9 @@ class Backend:
         Pump1.check_pump("11 PICO PLUS ELITE 3.0.7")
         Pump2.check_pump("11 PICO PLUS ELITE 3.0.7")
         Pump3.check_pump("11 PICO PLUS ELITE 3.0.7")
+
+    # stops all pumps
+    def stop_button(self):
+        Pump1.stop_pump()
+        Pump2.stop_pump()
+        Pump3.stop_pump()
