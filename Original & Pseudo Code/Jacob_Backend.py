@@ -288,6 +288,10 @@ class Backend:
             self.setVol2 = 0.01 * val_to_set2 * float(self.gui.maxvol_entry.get())
             Pump2.target_volume(str(abs(self.setVol2)), "ml")
 
+           # if self.setVol2 == 0: # this needs to be a slightly diffent conditional
+                #Pump2.pump_withdrawing = False
+                #Pump2.pump_infusing = False
+
 
         elif Pump2.pump_withdrawing is True and Pump2.pump_infusing is False:
             print("withdrawing true")
@@ -295,6 +299,10 @@ class Backend:
             val_to_set2 = self.com_cur2 - self.pos_cur2
             self.setVol2 = 0.01 * val_to_set2 * float(self.gui.maxvol_entry.get())
             Pump2.target_volume(str(abs(self.setVol2)), "ml")
+
+           # if self.setVol2 == 0:
+             #   Pump2.pump_withdrawing = False
+             #   Pump2.pump_infusing = False
 
         if self.setVol2 < 0:
             Pump2.withdraw_pump()
