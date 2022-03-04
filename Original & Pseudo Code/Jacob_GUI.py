@@ -14,8 +14,8 @@ class GUI:
         #self.backend.actuate() # ig guess I could also break up actuate into the comps and just call them here
 
         # i really doubt this will perform better but its better coding practice only thing is displaying the volume
-        self.backend.actuate1()
-        self.backend.actuate2()
+        #self.backend.actuate1()
+       # self.backend.actuate2()
         self.backend.actuate3()
 
         main.after(500, self.update) #every .5 sec it recursively calls itself
@@ -147,7 +147,7 @@ class GUI:
         # Stop Button Controls
         # ------------------#
         self.stop_button = Button(main, text="Stop Pumps", command=lambda: self.backend.stop_button())
-        self.stop_button.grid(row=6, column=8)
+        self.stop_button.grid(row=6, column=6)
 
 
 # Run the GUI

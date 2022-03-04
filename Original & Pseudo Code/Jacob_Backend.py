@@ -314,8 +314,20 @@ class Backend:
         #while isRunning is True:
             #time.sleep(self.t_step)
 
-        print("inflating 3 at start ")
-        print(self.isInflating3)
+       # print("inflating 3 at start ")
+       # print(self.isInflating3)
+
+        #######################################
+        #need to add this to all pumps
+        Pump3.c_volume()
+        Pump3.ci_volume()
+        Pump3.cw_volume()
+        Pump3.syringe_vol(str(self.vol))
+        Pump3.syringe_diam(str(self.diam))
+        Pump3.infuse_rate(str(self.rate), "ml/min")
+        Pump3.withdraw_rate(str(self.rate), "ml/min")
+
+        ###################################
 
         self.com_cur3 = self.gui.c3.get()
 
@@ -343,24 +355,30 @@ class Backend:
 
             if self.setVol3 < 0:
                 Pump3.withdraw_pump()
+                if Pump3.pump_withdrawing is True:
+                    print("pump withdrawing")
+                #print("pump withdrawing")
             elif self.setVol3 > 0:
                 Pump3.infuse_pump()
+                if Pump3.pump_infusing is True:
+                    print(" pump is infusing ")
+                #pump is failing to actaute the total volume into the pumps
+                #print(Pump3.infuse_pump())
+               # print("pump infusing")
             else:
                 Pump3.stop_pump()
+                print("pump stopped")
 
             self.com_prev3 = self.com_cur3
             self.pos_prev3 = self.pos_cur3
 
-            # im a little confused why this condition is at the end I get it for the first iteration but after
-            # that the condition will be set on the previous run which doesnt make any sense
         if self.setVol3 <= self.pump_step:
             self.isInflating3 = False
         else:
             self.isInflating3 = True
 
-
-        print("inflating 3 at end ")
-        print(self.isInflating3)
+       # print("inflating 3 at end ")
+      #  print(self.isInflating3)
 
     def setAttributes(self):
 
